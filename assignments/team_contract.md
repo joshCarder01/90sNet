@@ -8,9 +8,9 @@
 * lapech@mail.uc.edu
 
 ## Meeting and Communication Expectations
-* Members meet once a week at XX:XX XXXday for X hour(s).
+* Members meet once a week at 10AM Thursday for 1 hour(s).
 * Members respond to direct communication (Discord, Email etc.) at least once a day Mon-Thurs during business hours.
-* Members meet with advisor on the XXth day of each month.
+* Members meet with advisor on the 1st Thursday of each month.
 
 ## Project focus
 Historical representation of the University of Cincinanti West Campus network from the 1990s.
@@ -37,3 +37,6 @@ Historical representation of the University of Cincinanti West Campus network fr
     * Historical Research
     * Network and System Architecture
     * Interface
+* Chad Lape
+    * Core Implementation
+    * Automated Adversaries
