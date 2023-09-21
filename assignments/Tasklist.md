@@ -8,7 +8,10 @@
 
 5. Research viable hardware to run project on [Chad Lape]
 6. Research viable medium to run project on (Docker etc) [Chad Lape]
+7. Research Daemons which can give an overview of the state of the network [Chad Lape]
+8. Research methods to access hardware remotely [Chad Lape]
 
 # Design Phase
-7. Specify systems to include on network [Josh Hale]
-8. 
+9. Specify systems to include on network [Josh Hale]
+10. Develop a small scale test network on the hardware [Chad Lape]
+11. Design admin control system and a way to interact with the virtual network [Chad Lape]
