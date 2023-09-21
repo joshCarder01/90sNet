@@ -17,10 +17,12 @@
 11. Design admin control system and a way to interact with the virtual network [Chad Lape]
 12. Develop methods for event collection+queueing and scroing in the automated systems [Josh Hale]
 13. Develop Admin Dashboard for tracking container failures and logging [Chad Lape]
+
+# Development of Virtual Network Environment
 14. Develop proxies which competitors will connect into the environment [Josh Hale]
 15. Develop images for containers of the Lab Systems [Josh Hale]
 16. Develop images for containers of the Physical Security Systems [Josh Hale]
-17. Develop images for containers of the Network Devices [Josh Hale]
+17. Develop images for containers of the Network Devices [Chad Lape]
 18. Develop images for containers of the Personal NPC Devices [Chad Lape]
 19. Develop images for containers of the Department Systems [Chad Lape]
 
