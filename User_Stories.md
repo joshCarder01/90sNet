@@ -3,7 +3,7 @@
 ## Competitors
 As a naive competitor, I want to have traffic which comes from 90s net appear to be normal traffic for a university, that way I can capture traffic and view it.
 
-As an attacker, I want machines to be vulnerable to cyber attacks which are somewhat common, my skill will then be tested as I move through the network
+As an attacker, I want machines to be vulnerable to cyber attacks which are somewhat common, my skill will then be tested as I move through the network.
 
 As a competitor, I want my own access of 90s net to remain secure, that way my own system does not become compromised from traffic on the network.
 
