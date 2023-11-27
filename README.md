@@ -14,5 +14,4 @@ A recreation of the University of Cincinnati network and some systems from the 1
 * [Chad's Professional Bio](biographies/lape.md) and [Josh's Professional Bio](biographies/hale.md)
 * [Budget](assignments/budget.md)
 * [Appendix](appendix.md)
-
-
+* [Resources](resources.md)
