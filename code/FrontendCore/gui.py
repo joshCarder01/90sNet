@@ -62,7 +62,7 @@ class FrontendGUI:
         self.canvas.addtag_all("all")
 
         self.net_client = net_client
-        self.event_stream_thread = threading.Thread(target=self.update_event_stream, args=[])
+        self.event_stream_thread = threading.Thread(target=self.update_gui, args=[])
         self.event_stream_thread.start()
 
         mainloop()
@@ -73,6 +73,25 @@ class FrontendGUI:
         tk_object.see("end")
         tk_object.config(state=DISABLED)
 
+    def update_gui(self):
+        time_last_event = 0
+        while True:
+            # get updated events from server
+            new_events, time_last_event = self.net_client.getEventsSince(time_last_event)
+            # for each event, update display as needed
+            for time_stamp, event in new_events.items():
+                # update event stream
+                self.write_to(self.event_stream, "time: {}\nevent: {}\n-------------------\n".format(str(time_stamp), str(event)))
+                # TODO: update map dots
+                # TODO: update scoreboard
+            time.sleep(5)
+
+
+
+
+
+
+    '''
     # Function is run as own thread to get information and update gui. Should be its own file to be honest, or diff functions
     def update_event_stream(self):
         last_time = 0 # default to get all events since start of server
@@ -93,3 +112,4 @@ class FrontendGUI:
                 {self.write_to(self.event_stream, "{}: {}".format(t,e)) for (t,e) in new_events_dict.items()} # using dict comprehension as a loop. Funny, but not great practice. This just adds thing to the tk textbox
 
             time.sleep(10)
+    '''
