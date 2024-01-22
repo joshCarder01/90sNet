@@ -73,19 +73,23 @@ class FrontendGUI:
         tk_object.see("end")
         tk_object.config(state=DISABLED)
 
+    # Function is run as own thread to get information and update gui. Should be its own file to be honest, or diff functions
     def update_event_stream(self):
-        
-        last_time = 0
+        last_time = 0 # default to get all events since start of server
         while True:
+            # command json that is sent to the server
             event_command = {
                 "command":"getEventsSince",
                 "args":[float(last_time)]
             }
+            # send command and get events
             new_events = self.net_client.send_and_receive(json.dumps(event_command))
+
+            # Not great, new_events is received as json string. Empty json is "{}" with len of 2. Only run this if not empty
             if len(new_events) > 2:
                 new_events_dict = json.loads(new_events)
-                last_time = list(new_events_dict)[-1]
-                self.net_client.event_list += [new_events_dict]
-                {self.write_to(self.event_stream, "{}: {}".format(t,e)) for (t,e) in new_events_dict.items()}
+                last_time = list(new_events_dict)[-1] # gets the time of the last event
+                self.net_client.event_list += [new_events_dict] # loads events into event manager. also not the best way of doing this. Fix to have better separation of duty between classes
+                {self.write_to(self.event_stream, "{}: {}".format(t,e)) for (t,e) in new_events_dict.items()} # using dict comprehension as a loop. Funny, but not great practice. This just adds thing to the tk textbox
 
             time.sleep(10)
