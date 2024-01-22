@@ -2,6 +2,8 @@ from tkinter import *
 
 import threading
 import time
+from PIL import ImageTk, Image  
+
 
 import json
 
@@ -48,16 +50,45 @@ class FrontendGUI:
                     relief='ridge')
         self.canvas.pack(fill=BOTH, expand=YES)
 
-        self.event_stream = Text(self.canvas, height = 28,
-                    width = 95,
+        self.console = Text(self.canvas, height = 10,
+                    width = 60,
                     highlightbackground="#36393f",
                     relief="flat",
-                    bg = "#202225",
+                    bg = "#000000",
                     fg="white",
                     highlightthickness = 0,
                     font=("Uni Sans", 10),
                     state=DISABLED)
-        self.event_stream.pack(fill=BOTH, expand=YES)
+        self.console.pack(fill=BOTH, side=BOTTOM, expand=YES)
+
+        self.event_stream = Text(self.canvas, height = 28,
+                    width = 60,
+                    highlightbackground="#36393f",
+                    relief="flat",
+                    bg = "#36393f",
+                    fg="white",
+                    highlightthickness = 0,
+                    font=("Uni Sans", 10),
+                    state=DISABLED)
+        self.event_stream.pack(fill=BOTH, side=RIGHT, expand=YES)
+
+        map_image = Image.open("FrontendCore/uc_map.png")
+        map_image = ImageTk.PhotoImage(map_image)
+        self.image_label = Label(self.canvas, image=map_image)
+        self.image_label.pack(fill=BOTH, side=RIGHT, expand=YES)
+
+        self.scoreboard = Text(self.canvas, height = 28,
+                    width = 60,
+                    highlightbackground="#36393f",
+                    relief="flat",
+                    bg = "#36393f",
+                    fg="white",
+                    highlightthickness = 0,
+                    font=("Uni Sans", 10),
+                    state=DISABLED)
+        self.scoreboard.pack(fill=BOTH, side=RIGHT, expand=YES)
+
+        
 
         self.canvas.addtag_all("all")
 
