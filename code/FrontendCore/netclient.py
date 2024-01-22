@@ -20,11 +20,11 @@ class NetClient:
         return r_data
     
     # Shortcut for getting events since a time
-    def getEventsSince(self, utc):
+    def getEventsSince(self, unix_time_code):
         # command struct
         event_command = {
             "command":"getEventsSince",
-            "args":[float(utc)]
+            "args":[float(unix_time_code)]
         }
 
         # send command and get events
