@@ -1,6 +1,6 @@
-from FrontendCore import gui
-from FrontendCore import netclient
+from FrontendCore import testGUI
+from FrontendCore import testNetClient
 
 
-net_client = netclient.NetClient('127.0.0.1', 9000)
-frontend_gui = gui.FrontendGUI(net_client)
+net_client = testNetClient.NetClient('127.0.0.1', 9000)
+frontend_gui = testGUI.FrontendGUI(net_client)
