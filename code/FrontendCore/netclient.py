@@ -28,9 +28,9 @@ class NetClient:
         }
 
         # send command and get events
-        new_events = json.loads(self.net_client.send_and_receive(json.dumps(event_command)))
+        new_events = json.loads(self.send_and_receive(json.dumps(event_command)))
         # calculate time of last event
-        time_last_event = 0
+        time_last_event = unix_time_code
         if len(new_events) > 0:
             time_last_event = float(list(new_events)[-1]) # gets the time of the last event
 
