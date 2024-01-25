@@ -14,3 +14,20 @@
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# https://github.com/github/gitignore/blob/main/Python.gitignore
+# Python Gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
