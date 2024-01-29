@@ -14,7 +14,12 @@ class EventManager:
         }
 
     def add_event(self, event):
-        self.events[time.time()] = event
+        event_parameters = event.split(" ")
+        event_details = {}
+        for parameter in event_parameters[1:]:
+            k,v = parameter.split(":")
+            event_details[k] = v
+        self.events[time.time()] = {event_parameters[0]:event_details}
 
     def get_events_since(self, unix_time_stamp):
         return_events = {}
