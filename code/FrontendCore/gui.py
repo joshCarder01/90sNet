@@ -55,41 +55,42 @@ class FrontendGUI:
                     width=self.width, 
                     height=self.height, 
                     bg=self.colors['darkest'],
+                    #bg='green',
                     bd=0, 
                     highlightthickness=0, 
                     relief='ridge')
         self.canvas.pack(fill=BOTH, expand=YES)
 
         # Score Display
-        self.scoreboard = Text(self.canvas, height = 44,
-                    width = 60,
-                    highlightbackground="#36393f",
+        self.scoreboard = Canvas(self.canvas,
+                    height = 750,
+                    width = 550,
+                    bg = 'blue',
                     relief="flat",
-                    bg = "blue",
-                    fg="white",
-                    highlightthickness = 0,
-                    font=("Free Mono Bold", 10),
-                    state=DISABLED)
-        self.scoreboard.grid(row=0, column=0, sticky='w')
+                    borderwidth=0,
+                    highlightthickness=0)
+        self.scoreboard.grid(row=0, column=0, sticky='w', padx=20)
+        self.scoreboard.grid_propagate(0)
+        self.user_scores = {}
 
         # Console user input
         self.console = Text(self.canvas,
-                    width = 240,
-                    height = 15,
+                    width = 94,
+                    height = 17,
                     highlightbackground="#36393f",
                     relief="flat",
-                    bg = "#050505",
+                    bg = "#111111",
                     fg="white",
                     highlightthickness = 0,
-                    font=("Free Mono Bold", 10,))
-        self.console.grid(row=1, column=0, columnspan = 3, sticky='s')
+                    font=("Free Mono", 10,"bold"))
+        self.console.grid(row=1, column=1, sticky='s', pady=0)
 
         # canvas that displays map and nodes
         self.map_canvas = Canvas(self.canvas,
                     width=750,
                     height=750,
                     bg="red")
-        self.map_canvas.grid(row=0, column=1, sticky='n')
+        self.map_canvas.grid(row=0, column=1, sticky='n', pady=20)
 
         # Map image
         image = Image.open("FrontendCore/uc_map.png")
@@ -97,7 +98,7 @@ class FrontendGUI:
         pic = ImageTk.PhotoImage(image)
         self.map_canvas.create_image(0,0,image=pic, anchor="nw")
 
-        # Nodes
+        # Nodes on map
         with open("FrontendCore/nodes.json") as json_file:
             self.node_data = json.load(json_file)
         print(self.node_data)
@@ -114,26 +115,25 @@ class FrontendGUI:
         ## Canvas
         self.event_stream_container = Canvas(self.canvas,
                     height = 750,
-                    width = 500,
-                    bg = self.colors['main_text'],
-                    relief=SUNKEN,
-                    scrollregion=(0, 0, 400, 9000))
-        self.event_stream_container.grid(row=0, column=2, sticky='e')
+                    width = 550,
+                    bg = self.colors['darkest'],
+                    relief="flat",
+                    borderwidth=0,
+                    scrollregion=(0, 0, 400, 9000),
+                    highlightthickness=0)
+        self.event_stream_container.grid(row=0, column=2, sticky='w',padx=20)
         self.event_stream_container.grid_propagate(0)
         
-
-        
-        ## Scroll bar
-        yscrollbar = Scrollbar(self.canvas, orient="vertical", command=self.event_stream_container.yview)
-        yscrollbar.grid(row=0, column=3, sticky="ns")
-        self.event_stream_container.configure(yscrollcommand=yscrollbar.set)
-
+        ## Scrolling
         self.event_stream_container.bind_all('<4>', lambda event: self.event_stream_container.yview_scroll(-1, "units"))
         self.event_stream_container.bind_all('<5>', lambda event: self.event_stream_container.yview_scroll(1, "units"))
         
-        ## Frame
+        ## Frame where all the events go
         self.event_stream_frame = Frame(self.event_stream_container,
-                    bg=self.colors['main_text'])
+                    bg=self.colors['darkest'],
+                    relief="flat",
+                    borderwidth=0,
+                    highlightthickness=0)
         self.event_stream_container.create_window((0,0), window=self.event_stream_frame, anchor="nw")
         
         # Net thread
@@ -152,18 +152,23 @@ class FrontendGUI:
         tk_object.config(state=DISABLED)
 
     def display_event(self, time_stamp, event):
-        event_text = "{}: {}\nDetail: {}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event, "text", " "*60)
+        event_type = list(event.keys())[0]
+        details = ", ".join(["{}: {}".format(k,v) for k,v in event[event_type].items()])
+        event_text = "{}: {}\n{}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event_type, details, " "*75)
         new_event = Message(self.event_stream_frame,
-                    fg="white",
-                    bg=self.colors['light_tb'],
+                    fg="#94d6fe",
+                    bg=self.colors['main_text'],
                     font=("Free Mono", 10, "bold"),
-                    width=470,
+                    width=510,
                     relief=SUNKEN,
                     text=event_text)
         last_row = self.event_stream_frame.grid_size()[1]
         new_event.grid(row=last_row, column=0, padx=5, pady=5, ipadx=5, ipady=5, sticky='n')
         self.event_stream_container.config(scrollregion= self.event_stream_container.bbox("all"))
         self.event_stream_container.yview_moveto(1)
+
+    def display_scores(self, time_stamp, event):
+        pass
         
 
 
