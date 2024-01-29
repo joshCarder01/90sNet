@@ -43,18 +43,24 @@ class FrontendGUI:
         self.main_frame = Frame(self.root)
         self.main_frame.pack(fill=BOTH, expand=YES)
 
+        self.colors = {
+            'darkest':"#181818",
+            'top_bar':"#222222",
+            'main_text':"#202020",
+            'light_tb':"#313131"
+        }
+
         # Base canvas
         self.canvas = Canvas(self.main_frame, 
                     width=self.width, 
                     height=self.height, 
-                    bg="#202225",
+                    bg=self.colors['darkest'],
                     bd=0, 
                     highlightthickness=0, 
                     relief='ridge')
         self.canvas.pack(fill=BOTH, expand=YES)
 
         # Score Display
-
         self.scoreboard = Text(self.canvas, height = 44,
                     width = 60,
                     highlightbackground="#36393f",
@@ -72,7 +78,7 @@ class FrontendGUI:
                     height = 15,
                     highlightbackground="#36393f",
                     relief="flat",
-                    bg = "#000000",
+                    bg = "#050505",
                     fg="white",
                     highlightthickness = 0,
                     font=("Free Mono Bold", 10,))
@@ -109,7 +115,7 @@ class FrontendGUI:
         self.event_stream_container = Canvas(self.canvas,
                     height = 750,
                     width = 500,
-                    bg = "green",
+                    bg = self.colors['main_text'],
                     relief=SUNKEN,
                     scrollregion=(0, 0, 400, 9000))
         self.event_stream_container.grid(row=0, column=2, sticky='e')
@@ -127,15 +133,17 @@ class FrontendGUI:
         
         ## Frame
         self.event_stream_frame = Frame(self.event_stream_container,
-                    bg='purple')
+                    bg=self.colors['main_text'])
         self.event_stream_container.create_window((0,0), window=self.event_stream_frame, anchor="nw")
         
         # Net thread
         self.net_client = net_client
+        self.run_thread = True
         self.event_stream_thread = threading.Thread(target=self.update_gui, args=[])
         self.event_stream_thread.start()
 
         mainloop()
+        self.run_thread = False
     
     def write_to(self,tk_object, text):
         tk_object.config(state=NORMAL)
@@ -147,9 +155,10 @@ class FrontendGUI:
         event_text = "{}: {}\nDetail: {}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event, "text", " "*60)
         new_event = Message(self.event_stream_frame,
                     fg="white",
-                    bg="blue",
+                    bg=self.colors['light_tb'],
                     font=("Free Mono", 10, "bold"),
                     width=470,
+                    relief=SUNKEN,
                     text=event_text)
         last_row = self.event_stream_frame.grid_size()[1]
         new_event.grid(row=last_row, column=0, padx=5, pady=5, ipadx=5, ipady=5, sticky='n')
@@ -160,7 +169,7 @@ class FrontendGUI:
 
     def update_gui(self):
         time_last_event = 0
-        while True:
+        while self.run_thread:
             # get updated events from server
             new_events, time_last_event = self.net_client.getEventsSince(time_last_event)
             # for each event, update display as needed
@@ -173,27 +182,3 @@ class FrontendGUI:
     
 
 
-
-
-    '''
-    # Function is run as own thread to get information and update gui. Should be its own file to be honest, or diff functions
-    def update_event_stream(self):
-        last_time = 0 # default to get all events since start of server
-        while True:
-            # command json that is sent to the server
-            event_command = {
-                "command":"getEventsSince",
-                "args":[float(last_time)]
-            }
-            # send command and get events
-            new_events = self.net_client.send_and_receive(json.dumps(event_command))
-
-            # Not great, new_events is received as json string. Empty json is "{}" with len of 2. Only run this if not empty
-            if len(new_events) > 2:
-                new_events_dict = json.loads(new_events)
-                last_time = list(new_events_dict)[-1] # gets the time of the last event
-                self.net_client.event_list += [new_events_dict] # loads events into event manager. also not the best way of doing this. Fix to have better separation of duty between classes
-                {self.write_to(self.event_stream, "{}: {}".format(t,e)) for (t,e) in new_events_dict.items()} # using dict comprehension as a loop. Funny, but not great practice. This just adds thing to the tk textbox
-
-            time.sleep(10)
-    '''
