@@ -3,7 +3,7 @@ from tkinter import *
 import threading
 import time
 from PIL import ImageTk, Image  
-
+import datetime
 
 import json
 
@@ -91,81 +91,46 @@ class FrontendGUI:
         pic = ImageTk.PhotoImage(image)
         self.map_canvas.create_image(0,0,image=pic, anchor="nw")
 
-        # Event stream
-        self.event_stream = Text(self.canvas, height = 44,
-                    width = 60,
-                    highlightbackground="#36393f",
-                    relief="flat",
-                    bg = "green",
-                    fg="white",
-                    highlightthickness = 0,
-                    font=("Free Mono", 10, "bold"),
-                    state=DISABLED)
-        self.event_stream.grid(row=0, column=2, sticky='e')
-
-        '''
-        # User input
-        self.console = Text(self.canvas, height = 10,
-                    width = 60,
-                    highlightbackground="#36393f",
-                    relief="flat",
-                    bg = "#000000",
-                    fg="white",
-                    highlightthickness = 0,
-                    font=("FreeMono", 10),
-                    state=DISABLED)
-        self.console.pack(fill=BOTH, side=BOTTOM, expand=YES)
-
-        # Event display
-        self.event_stream = Text(self.canvas, height = 28,
-                    width = 60,
-                    highlightbackground="#36393f",
-                    relief="flat",
-                    bg = "#36393f",
-                    fg="white",
-                    highlightthickness = 0,
-                    font=("FreeMono", 10),
-                    state=DISABLED)
-        self.event_stream.pack(fill=BOTH, side=RIGHT, expand=YES)
-
-        # Map of campus
-        map_image = Image.open("FrontendCore/uc_map.png")
-        map_image = ImageTk.PhotoImage(map_image)
-        self.image_item = self.canvas.create_image(0,0, image=map_image)
-        #self.image_item.pack(fill=BOTH, , expand=YES)
-        
-        #self.image_label = Label(self.canvas, image=map_image)
-        #self.image_label.pack(fill=BOTH, side=RIGHT, expand=YES)
-
-        # Score Display
-        self.scoreboard = Text(self.canvas, height = 28,
-                    width = 60,
-                    highlightbackground="#36393f",
-                    relief="flat",
-                    bg = "#36393f",
-                    fg="white",
-                    highlightthickness = 0,
-                    font=("Uni Sans", 10),
-                    state=DISABLED)
-        self.scoreboard.pack(fill=BOTH, side=RIGHT, expand=YES)
-
         # Nodes
         with open("FrontendCore/nodes.json") as json_file:
             self.node_data = json.load(json_file)
         print(self.node_data)
         for name, data in self.node_data.items():
-            r = 100
+            r = 7
             x0 = data['location'][0] - r
             y0 = data['location'][1] - r
             x1 = data['location'][0] + r
             y1 = data['location'][1] + r
-            o = self.canvas.create_oval(x0, y0, x1, y1, fill="blue")
-            self.canvas.tag_raise(o, self.image_item)
-        '''
+            o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="blue")
+            #self.map_canvas.tag_raise(o, self.image_item)
+
+        # Event stream
+        ## Canvas
+        self.event_stream_container = Canvas(self.canvas,
+                    height = 750,
+                    width = 500,
+                    bg = "green",
+                    relief=SUNKEN,
+                    scrollregion=(0, 0, 400, 9000))
+        self.event_stream_container.grid(row=0, column=2, sticky='e')
+        self.event_stream_container.grid_propagate(0)
         
 
-        #self.canvas.addtag_all("all")
+        
+        ## Scroll bar
+        yscrollbar = Scrollbar(self.canvas, orient="vertical", command=self.event_stream_container.yview)
+        yscrollbar.grid(row=0, column=3, sticky="ns")
+        self.event_stream_container.configure(yscrollcommand=yscrollbar.set)
 
+        self.event_stream_container.bind_all('<4>', lambda event: self.event_stream_container.yview_scroll(-1, "units"))
+        self.event_stream_container.bind_all('<5>', lambda event: self.event_stream_container.yview_scroll(1, "units"))
+        
+        ## Frame
+        self.event_stream_frame = Frame(self.event_stream_container,
+                    bg='purple')
+        self.event_stream_container.create_window((0,0), window=self.event_stream_frame, anchor="nw")
+        
+        # Net thread
         self.net_client = net_client
         self.event_stream_thread = threading.Thread(target=self.update_gui, args=[])
         self.event_stream_thread.start()
@@ -179,8 +144,18 @@ class FrontendGUI:
         tk_object.config(state=DISABLED)
 
     def display_event(self, time_stamp, event):
-        self.write_to(self.event_stream, "time: {}\nevent: {}\n".format(str(time_stamp), str(event)))
-        self.write_to(self.event_stream,"-"*60)
+        event_text = "{}: {}\nDetail: {}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event, "text", " "*60)
+        new_event = Message(self.event_stream_frame,
+                    fg="white",
+                    bg="blue",
+                    font=("Free Mono", 10, "bold"),
+                    width=470,
+                    text=event_text)
+        last_row = self.event_stream_frame.grid_size()[1]
+        new_event.grid(row=last_row, column=0, padx=5, pady=5, ipadx=5, ipady=5, sticky='n')
+        self.event_stream_container.config(scrollregion= self.event_stream_container.bbox("all"))
+        self.event_stream_container.yview_moveto(1)
+        
 
 
     def update_gui(self):
