@@ -65,7 +65,7 @@ class FrontendGUI:
         self.scoreboard = Canvas(self.canvas,
                     height = 750,
                     width = 550,
-                    bg = 'blue',
+                    bg = self.colors['darkest'],
                     relief="flat",
                     borderwidth=0,
                     highlightthickness=0)
@@ -108,7 +108,7 @@ class FrontendGUI:
             y0 = data['location'][1] - r
             x1 = data['location'][0] + r
             y1 = data['location'][1] + r
-            o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="blue")
+            o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="#e13038")
             #self.map_canvas.tag_raise(o, self.image_item)
 
         # Event stream
@@ -167,8 +167,43 @@ class FrontendGUI:
         self.event_stream_container.config(scrollregion= self.event_stream_container.bbox("all"))
         self.event_stream_container.yview_moveto(1)
 
-    def display_scores(self, time_stamp, event):
-        pass
+    def update_score_db(self, time_stamp, event):
+        event_type = list(event.keys())[0]
+        # If it is not a score related event, return
+        if event_type != "addScore" and event_type != "setScore":
+            return
+        # if malformed, return
+        if "user" not in event[event_type] or "value" not in event[event_type]:
+            print("malformed score event. should have user and value keys")
+            return
+        # assign score
+        user = event[event_type]['user']
+        value = event[event_type]['value']
+        if event_type == "setScore" or user not in self.user_scores:
+            self.user_scores[user] = value
+            print(self.user_scores)
+        elif event_type == 'addScore':
+            self.user_scores[user] += value
+
+    def display_scores(self):
+        self.scoreboard.delete('all')
+        num_players = len(self.user_scores.keys())
+        for i, kv in enumerate(self.user_scores.items()):
+            user, value = kv
+            event_text = "{}:\n{}\n{}".format(user, value, " "*10)
+            new_event = Message(self.scoreboard,
+                        fg="#579753",
+                        bg=self.colors['main_text'],
+                        font=("Free Mono", 13, "bold"),
+                        width=510,
+                        relief=SUNKEN,
+                        text=event_text)
+            
+            new_event.grid(row=i//4, column=i%4, padx=5, pady=5, ipadx=5, ipady=5, sticky='n')
+
+
+        
+            
         
 
 
@@ -181,8 +216,10 @@ class FrontendGUI:
             for time_stamp, event in new_events.items():
                 # update event stream
                 self.display_event(time_stamp, event)
-                # TODO: update map dots
-                # TODO: update scoreboard
+                # update scoreboard
+                self.update_score_db(time_stamp, event)
+                # TODO: update map
+            self.display_scores()
             time.sleep(5)
     
 
