@@ -21,8 +21,8 @@ class NetClient:
         return r_data
     
     def send_and_receive_http(self, data):
-        r = requests.get("{}:{}".format(self.ip_address, self.port_number), 
-                         headers={'content-type':'application/json'},
+        r = requests.get("http://{}:{}".format(self.ip_address, self.port_number),
+                         headers={'Content-Type':'application/json'},
                          data=data)
         print(r.text)
     
