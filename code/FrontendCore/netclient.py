@@ -1,6 +1,7 @@
 import socket, time
 import threading
 import json
+import requests
 
 class NetClient:
 
@@ -19,6 +20,12 @@ class NetClient:
         server.close()
         return r_data
     
+    def send_and_receive_http(self, data):
+        r = requests.get("{}:{}".format(self.ip_address, self.port_number), 
+                         headers={'content-type':'application/json'},
+                         data=data)
+        print(r.text)
+    
     # Shortcut for getting events since a time
     def getEventsSince(self, unix_time_code):
         # command struct
@@ -28,7 +35,7 @@ class NetClient:
         }
 
         # send command and get events
-        new_events = json.loads(self.send_and_receive(json.dumps(event_command)))
+        new_events = json.loads(self.send_and_receive_http(json.dumps(event_command)))
         # calculate time of last event
         time_last_event = unix_time_code
         if len(new_events) > 0:
