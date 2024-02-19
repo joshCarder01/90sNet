@@ -20,22 +20,21 @@ class NetClient:
         server.close()
         return r_data
     
-    def send_and_receive_http(self, data):
-        r = requests.get("http://{}:{}".format(self.ip_address, self.port_number),
+    def send_and_receive_http(self, command, data):
+        r = requests.get("http://{}:{}/{}".format(self.ip_address, self.port_number, command),
                          headers={'Content-Type':'application/json'},
-                         data=data)
+                         json=data)
         print(r.text)
     
     # Shortcut for getting events since a time
     def getEventsSince(self, unix_time_code):
         # command struct
         event_command = {
-            "command":"getEventsSince",
-            "args":[float(unix_time_code)]
+            "time":[float(unix_time_code)]
         }
 
         # send command and get events
-        new_events = json.loads(self.send_and_receive_http(json.dumps(event_command)))
+        new_events = json.loads(self.send_and_receive_http("getEventsSince", json.dumps(event_command)))
         # calculate time of last event
         time_last_event = unix_time_code
         if len(new_events) > 0:
