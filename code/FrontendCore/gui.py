@@ -84,6 +84,10 @@ class FrontendGUI:
                     highlightthickness = 0,
                     font=("Free Mono", 10,"bold"))
         self.console.grid(row=1, column=1, sticky='s', pady=0)
+        self.root.bind('<Return>', lambda event:self.update_user_input())
+        self.root.bind("<Button-1>", lambda event:self.console.mark_set("insert", END))
+        #self.root.bind("<Button-1>", lambda event:print("foo"))
+        self.write_to_stream(self.console, "Admin> ")
 
         # canvas that displays map and nodes
         self.map_canvas = Canvas(self.canvas,
@@ -101,7 +105,6 @@ class FrontendGUI:
         # Nodes on map
         with open("FrontendCore/nodes.json") as json_file:
             self.node_data = json.load(json_file)
-        print(self.node_data)
         for name, data in self.node_data.items():
             r = 7
             x0 = data['location'][0] - r
@@ -150,6 +153,10 @@ class FrontendGUI:
         tk_object.insert(END, text + "\n")
         tk_object.see("end")
         tk_object.config(state=DISABLED)
+    
+    def write_to_stream(self, tk_object, text):
+        tk_object.insert(END, text)
+        tk_object.see("end")
 
     def display_event(self, time_stamp, event):
         event_type = list(event.keys())[0]
@@ -221,6 +228,16 @@ class FrontendGUI:
                 # TODO: update map
             self.display_scores()
             time.sleep(5)
+
+    def update_user_input(self):
+        stream = self.console.get("1.0", "end-1c")
+        prompt = "Admin> "
+        last_cmd = stream.rfind(prompt)
+
+        cmd_result = stream[last_cmd+len(prompt):]
+
+        self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
+
     
 
 
