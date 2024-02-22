@@ -8,46 +8,43 @@ from sqlalchemy.sql import func
 
 from typing import Union
 
-from Models.base import _DBBase
-from Models import PwnEvent, User, Machine
+from Backend import db
+from Models import ScoreEvent, User, Machine
 
 __all__=['DBManager']
 
 MAX_INT=99999999
 
-class DBManager:
+# class DBManager:
     
-    engine: Engine = None
-    __model_base: _DBBase = _DBBase
+#     engine: Engine = None
+#     __model_base: _DBBase = _DBBase
 
-    def __init__(self, path: str):
-        self.create_db(path)
+#     def __init__(self, path: str):
+#         self.create_db(path)
 
-    def create_db(self, path: str):
-        logging.info("Creating Database at: {}", path)
-        self.engine = create_engine("sqlite:///" + path)
-        self.__model_base.metadata.create_all(self.engine)
+#     def create_db(self, path: str):
+#         logging.info("Creating Database at: {}", path)
+#         self.engine = create_engine("sqlite:///" + path)
+#         self.__model_base.metadata.create_all(self.engine)
 
 
-    def events_since(self, time_since: datetime.datetime):
-        select(PwnEvent).where(PwnEvent.time >= time_since).order_by(PwnEvent.time)
+#     def events_since(self, time_since: datetime.datetime):
+#         select(ScoreEvent).where(ScoreEvent.time >= time_since).order_by(ScoreEvent.time)
     
-    def __enter__(self):
-        return Session(self.engine)
+#     def __enter__(self):
+#         return Session(self.engine)
 
-    def get_session(self, **kwargs):
-        """
-        Intended to act as a method to quickly gain a new session to work in.
-        This is not meant to be one single session and each interaction
-        should close its own session.
-        """
-        return Session(self.engine, **kwargs)
+#     def get_session(self, **kwargs):
+#         """
+#         Intended to act as a method to quickly gain a new session to work in.
+#         This is not meant to be one single session and each interaction
+#         should close its own session.
+#         """
+#         return Session(self.engine, **kwargs)
 
 
 class Seeder:
-
-    def __init__(self, Manager: DBManager):
-        self.manager = Manager
 
     def __get_random_id(self, model: Union[User, Machine]):
         """
@@ -66,7 +63,7 @@ class Seeder:
     def user_factory(self, num_records: int=10, base_name: str="User_"):
         
         # Creating this number of records
-        with Session(self.manager.engine) as session:
+        with Session(db.engine) as session:
             for i in range(num_records):
                 session.add(
                     User(
@@ -85,7 +82,7 @@ class Seeder:
                             score_step: int = 100
                         ):
 
-        with Session(self.manager.engine) as session:
+        with Session(db.engine) as session:
             for i in range(num_records):
                 session.add(
                     Machine(
@@ -103,10 +100,10 @@ class Seeder:
                     ):
         
         current = datetime.datetime.now()
-        with Session(self.manager.engine) as session:
+        with Session(db.engine) as session:
             for i in range(num_records):
                 session.add(
-                    PwnEvent(
+                    ScoreEvent(
                         id = random.randint(0, MAX_INT),
                         time = current - datetime.timedelta(seconds=random.randint(0, max_sec_past)),
                         user_id = self.__get_random_id(User),
@@ -117,9 +114,8 @@ class Seeder:
             session.commit()
 
 if __name__ == "__main__":
-    manager = DBManager("db/testing.sqlite")
 
-    seed = Seeder(manager)
+    seed = Seeder
 
     seed.user_factory(20)
     seed.machine_factory(10)

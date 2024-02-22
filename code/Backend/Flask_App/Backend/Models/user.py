@@ -5,7 +5,7 @@ from sqlalchemy import Integer, Text
 from sqlalchemy.orm import mapped_column, Mapped, Relationship
 
 from .base import _DBBase
-from .pwn_event import PwnEvent
+from .score_event import ScoreEvent
 
 __all__ = ['User']
 
@@ -16,6 +16,6 @@ class User(_DBBase):
 
     id: Mapped[int]                 = mapped_column(Integer, primary_key=True)
     username: Mapped[str]           = mapped_column(Text, nullable=False, unique=True)
-    name                            = mapped_column(Text, nullable=True)
+    name: Mapped[str]               = mapped_column(Text, nullable=True)
     #events: List[Mapped["Event"]]   = Relationship("Event", back_populates="user_id")
     

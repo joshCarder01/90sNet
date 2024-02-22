@@ -7,10 +7,10 @@ from sqlalchemy.orm import mapped_column, Mapped
 
 from .base import _DBBase
 
-__all__ = ['PwnEvent']
+__all__ = ['ScoreEvent']
 
 @dataclass
-class PwnEvent(_DBBase):
+class ScoreEvent(_DBBase):
 
     __tablename__ = "event"
 

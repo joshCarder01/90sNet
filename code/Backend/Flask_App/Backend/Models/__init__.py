@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from .pwn_event import PwnEvent
-from .machine import Machine
-from .user import User
-
-#__all__=['PwnEvent, Machine, User']
+# Providing Imports
+from .score_event import ScoreEvent as ScoreEvent
+from .machine import Machine as Machine
+from .user import User as User

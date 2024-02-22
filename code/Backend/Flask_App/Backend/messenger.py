@@ -28,8 +28,3 @@ class SocketServer:
         output = handle_function(data)
         connection.sendall(output.encode())
         connection.close()
-
-
-class Messenger:
-    
-    
