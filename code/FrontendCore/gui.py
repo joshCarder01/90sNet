@@ -220,7 +220,8 @@ class FrontendGUI:
             # get updated events from server
             new_events, time_last_event = self.net_client.getEventsSince(time_last_event)
             # for each event, update display as needed
-            for time_stamp, event in new_events.items():
+            for event in new_events:
+                time_stamp = event['time']
                 # update event stream
                 self.display_event(time_stamp, event)
                 # update scoreboard
