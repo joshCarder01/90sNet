@@ -15,15 +15,19 @@ from flask import Flask
 
 # Flask because why not rest
 app = Flask("90snet_backend")
-db = SQLAlchemy(engine_options={"echo": True})
+db = SQLAlchemy()
 
 
 def create_app() -> Flask:
+    global db
     app = Flask(__name__)
 
     # Configuring with Python Objects
     config_type = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
     app.config.from_object(config_type)
+
+    if app.config['DEBUG'] == True:
+        db = SQLAlchemy(engine_options={"echo": True})
 
     initialize_extensions(app)
     register_commands(app)

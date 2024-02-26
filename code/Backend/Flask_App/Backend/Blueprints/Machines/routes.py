@@ -11,8 +11,7 @@ from Backend import db
 from . import machines_blueprint
 
 
-@machines_blueprint.route("/", methods=["GET"])
-@machines_blueprint.route("", methods=["GET"])
+@machines_blueprint.route("/getMachines", methods=["GET"])
 def get_all_machines():
     """
     Expects no params, just gives all of the machines

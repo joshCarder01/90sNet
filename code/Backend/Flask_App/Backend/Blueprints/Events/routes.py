@@ -11,8 +11,7 @@ from Backend import db
 from . import events_blueprint
 
 
-@events_blueprint.route("/", methods=["GET"])
-@events_blueprint.route("", methods=["GET"])
+@events_blueprint.route("/getEvents", methods=["GET"])
 def get_all_events():
     """
     Expects no params, just gives all of the events
@@ -24,7 +23,7 @@ def get_all_events():
     return jsonify(ScoreEvent.serialize_list(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all()))
     # return jsonify(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all())
 
-@events_blueprint.route('/since', methods=['Get'])
+@events_blueprint.route('/getEventsSince', methods=['Get'])
 def get_events_since():
     """
     Expecting params json as follows:

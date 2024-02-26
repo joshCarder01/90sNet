@@ -10,8 +10,7 @@ from Backend import db
 from . import users_blueprint
 
 
-@users_blueprint.route("/", methods=["GET"])
-@users_blueprint.route("", methods=["GET"])
+@users_blueprint.route("/getUsers", methods=["GET"])
 def get_all():
     """
     Get all of the users in the database
