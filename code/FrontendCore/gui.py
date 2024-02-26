@@ -159,8 +159,8 @@ class FrontendGUI:
         tk_object.see("end")
 
     def display_event(self, time_stamp, event):
-        event_type = list(event.keys())[0]
-        details = ", ".join(["{}: {}".format(k,v) for k,v in event[event_type].items()])
+        event_type = event['type']
+        details = ", ".join(["{}: {}".format(k,v) for k,v in event.items()])
         event_text = "{}: {}\n{}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event_type, details, " "*75)
         new_event = Message(self.event_stream_frame,
                     fg="#94d6fe",
@@ -175,7 +175,7 @@ class FrontendGUI:
         self.event_stream_container.yview_moveto(1)
 
     def update_score_db(self, time_stamp, event):
-        event_type = list(event.keys())[0]
+        event_type = event['type']
         # If it is not a score related event, return
         if event_type != "addScore" and event_type != "setScore":
             return

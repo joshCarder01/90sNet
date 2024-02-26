@@ -24,7 +24,6 @@ class NetClient:
         r = requests.get("http://{}:{}/{}".format(self.ip_address, self.port_number, command),
                          headers={'Content-Type':'application/json'},
                          json=data)
-        print("\n\n",r.text,"\n\n")
         return r.text
     
     # Shortcut for getting events since a time
