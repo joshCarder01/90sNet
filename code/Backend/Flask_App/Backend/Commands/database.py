@@ -71,6 +71,7 @@ class Seeder:
                 session.add(
                     ScoreEvent(
                         id = random.randint(0, MAX_INT),
+                        type = "score_event",
                         time = current - datetime.timedelta(seconds=random.randint(0, max_sec_past)),
                         user_id = self.__get_random_id(User),
                         machine_id = self.__get_random_id(Machine)

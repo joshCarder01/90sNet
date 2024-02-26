@@ -6,6 +6,8 @@ services:
     build:
       context: ./
       dockerfile: DockerFiles/flask_app.dockerfile
+    environment:
+      - CONFIG_TYPE=config.ProductionConfig
     volumes:
       - type: bind
         source: ./Flask_App/db
