@@ -21,8 +21,8 @@ def get_all_events():
     current_app.logger.debug("Begin /%s/ handling", events_blueprint.url_prefix)
 
 
-    # return jsonify(ScoreEvent.serialize_list(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all()))
-    return jsonify(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all())
+    return jsonify(ScoreEvent.serialize_list(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all()))
+    # return jsonify(db.session.execute(select(ScoreEvent).order_by(ScoreEvent.time)).scalars().all())
 
 @events_blueprint.route('/since', methods=['Get'])
 def get_events_since():
@@ -46,7 +46,7 @@ def get_events_since():
         return "Key time is missing", 400
 
     # Gather the time argument
-    time: datetime.datetime = datetime.datetime.fromtimestamp(params['time'], datetime.UTC)
+    time: datetime.datetime = datetime.datetime.fromtimestamp(params['time'])
 
     query = select(ScoreEvent).where(ScoreEvent.time > time).order_by(ScoreEvent.time)
     

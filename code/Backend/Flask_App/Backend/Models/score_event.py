@@ -10,7 +10,7 @@ from Backend import db
 
 __all__ = ['ScoreEvent']
 
-EPOCH= datetime.datetime.utcfromtimestamp(0)
+EPOCH= datetime.datetime.fromtimestamp(0, datetime.UTC)
 @dataclass
 class ScoreEvent(db.Model, Serializer):
 
@@ -22,7 +22,11 @@ class ScoreEvent(db.Model, Serializer):
     user_id: Mapped[int]    = mapped_column(ForeignKey('user.id'))
     machine_id: Mapped[int] = mapped_column(ForeignKey('machine.id'))
 
+    @property
+    def timestamp(self):
+        return datetime.datetime.timestamp(self.time)
+
     def serialize(self):
         data = Serializer.serialize(self)
-        data["time"] = datetime.datetime.timestamp(self.time)
+        data["time"] = self.timestamp
         return data

@@ -12,7 +12,7 @@ from . import users_blueprint
 
 @users_blueprint.route("/", methods=["GET"])
 @users_blueprint.route("", methods=["GET"])
-def get_all_users():
+def get_all():
     """
     Get all of the users in the database
     """
