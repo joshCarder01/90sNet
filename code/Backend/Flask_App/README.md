@@ -1,6 +1,11 @@
 # For Running
 Would recommend using whatever docker compose container which has been made
 
+# CLI Commands
+
+- `flask --app app db init`
+  - Initializes the database with random data. Should be helpful to set everything up.
+
 # API Documentation
 This will represent the current documentation of the api. Each subheader is a blueprint in flask, the blueprint will use some base url for all of its commands.
 
@@ -25,6 +30,8 @@ Gets all of the users in the database
 
 ## Events
 **Base URL:** `/events`
+
+Returned time attribute is in millisecond precision.
 
 ### Get All Events
 

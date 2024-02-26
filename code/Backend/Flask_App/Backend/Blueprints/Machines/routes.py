@@ -12,11 +12,12 @@ from . import machines_blueprint
 
 
 @machines_blueprint.route("/", methods=["GET"])
+@machines_blueprint.route("", methods=["GET"])
 def get_all_machines():
     """
     Expects no params, just gives all of the machines
     """
 
-    current_app.logger.debug("Begin /{}/ handling", machines_blueprint.url_prefix)
+    current_app.logger.debug("Begin /%s/ handling", machines_blueprint.url_prefix)
 
-    return jsonify(db.session.query(Machine).all())
+    return jsonify(db.session.execute(select(Machine)).scalars().all())

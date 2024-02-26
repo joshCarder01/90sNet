@@ -15,17 +15,18 @@ from flask import Flask
 
 # Flask because why not rest
 app = Flask("90snet_backend")
-db = SQLAlchemy()
+db = SQLAlchemy(engine_options={"echo": True})
 
 
 def create_app() -> Flask:
-    app = Flask()
+    app = Flask(__name__)
 
     # Configuring with Python Objects
     config_type = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
     app.config.from_object(config_type)
 
     initialize_extensions(app)
+    register_commands(app)
     register_blueprints(app)
 
 
@@ -52,6 +53,9 @@ def initialize_extensions(app: Flask):
 # def create_db(app: Flask) -> None:
 #     manager.create_db(path.join(app.root_path, "db", "main_data.sqlite"))
 
+def register_commands(app: Flask) -> None:
+    from Backend.Commands import database_cli
+    app.register_blueprint(database_cli)
 
 # Functionalizing to make it a bit easier to deal with stuff
 def register_blueprints(app: Flask) -> None:

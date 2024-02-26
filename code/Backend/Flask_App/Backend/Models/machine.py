@@ -2,12 +2,14 @@ from dataclasses import dataclass
 from sqlalchemy import Integer, Text
 from sqlalchemy.orm import mapped_column, Mapped
 
-from .base import _DBBase
+from .base import Serializer
+
+from Backend import db
 
 __all__ = ['Machine']
 
 @dataclass
-class Machine(_DBBase):
+class Machine(db.Model, Serializer):
 
     __tablename__ = "machine"
 

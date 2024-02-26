@@ -4,13 +4,15 @@ from typing import List
 from sqlalchemy import Integer, Text
 from sqlalchemy.orm import mapped_column, Mapped, Relationship
 
-from .base import _DBBase
+from .base import Serializer
 from .score_event import ScoreEvent
+
+from Backend import db
 
 __all__ = ['User']
 
 @dataclass
-class User(_DBBase):
+class User(db.Model, Serializer):
 
     __tablename__ = "user"
 
