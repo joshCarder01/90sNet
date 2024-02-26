@@ -8,7 +8,7 @@ services:
       dockerfile: DockerFiles/flask_app.dockerfile
     volumes:
       - type: bind
-        source: Flask_App/db
+        source: ./Flask_App/db
         target: /app/db
     ports:
       - "5000:5000"
