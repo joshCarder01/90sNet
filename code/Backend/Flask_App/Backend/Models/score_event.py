@@ -2,7 +2,7 @@ import datetime
 
 from dataclasses import dataclass
 
-from sqlalchemy import Integer, ForeignKey, DateTime
+from sqlalchemy import Integer, ForeignKey, DateTime, Text
 from sqlalchemy.orm import mapped_column, Mapped
 
 from .base import Serializer
@@ -17,7 +17,7 @@ class ScoreEvent(db.Model, Serializer):
     __tablename__ = "event"
 
     id: Mapped[int]         = mapped_column(Integer, primary_key=True)
-    #name: Mapped[str]       = mapped_column(Text, nullable=False)
+    type: Mapped[str]       = mapped_column(Text, nullable=False)
     time: Mapped[DateTime]  = mapped_column(DateTime, default=datetime.datetime.now(datetime.UTC), nullable=False)
     user_id: Mapped[int]    = mapped_column(ForeignKey('user.id'))
     machine_id: Mapped[int] = mapped_column(ForeignKey('machine.id'))

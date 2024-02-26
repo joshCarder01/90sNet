@@ -13,14 +13,12 @@ For example, the [Events](#events) api uses `/events` as its base url. To get to
 
 ## Users
 
-**Base URL:** `/user`
-
 ### Get All Users
 
 Gets all of the users in the database
 
 * route
-  * `/`
+  * `/getUsers`
 * Method
   * `GET`
 * JSON Request
@@ -29,14 +27,13 @@ Gets all of the users in the database
   * Json of all of the users in the database
 
 ## Events
-**Base URL:** `/events`
 
-Returned time attribute is in millisecond precision.
+Returned time attribute is in datetime.timestamp format as a double
 
 ### Get All Events
 
 * Route 
-  * `/`
+  * `/getEvents`
 * Method
   * `GET`
 * JSON Request 
@@ -48,7 +45,7 @@ Returned time attribute is in millisecond precision.
 ### Get All Events Since
 
 * Route 
-  * `/since`
+  * `/getEventsSince`
 * Method
   * `GET`
 * JSON Request 
