@@ -11,7 +11,9 @@ services:
         privileged: true
         volumes:
                 - ./volumes:/volumes
-        #network_mode: host
+        networks:
+            net-10.9.0.0:
+                ipv4_address: 10.9.0.4
         ports:
           - "5002:22"
 
