@@ -18,14 +18,53 @@ dirs_to_check = {
     "root":"/",
 }
 
+files_to_check = {
+    "welcome_file":"/hello_world.txt",
+}
+
+cmd_to_check = {
+    "login_last":"last"
+}
+
 while True:
     for cid,c_info in container_info.items():
+        # check each path for new files
         for dir_name, dir_path in dirs_to_check.items():
+            # list of files
             dir_ls = docker("exec -it {} /bin/ls {}".format(cid, dir_path)).split()
+
+            # if there are no prexisting files, update. elif there are new files, update and call out with new files
             if dir_name not in container_info[cid]:
                 container_info[cid][dir_name] = dir_ls
             elif dir_ls != container_info[cid][dir_name]:
                 dif_file = [f for f in dir_ls if f not in set(container_info[cid][dir_name])]
                 print("{} {} updated with file ({})".format(cid, dir_name, ",".join(dif_file)))
                 container_info[cid][dir_name] = dir_ls
+
+        # check each file for new content
+        for file_name, file_path in files_to_check.items():
+            # list of files
+            file_content = docker("exec -it {} /bin/cat {}".format(cid, file_path)).split("\n")
+
+            # if there are no prexisting content, update. elif there are new content, update and call out with new content
+            if file_name not in container_info[cid]:
+                container_info[cid][file_name] = file_content
+            elif file_content != container_info[cid][file_name]:
+                dif_file = [f for f in file_content if f not in set(container_info[cid][file_name])]
+                print("{} {} updated with file ({})".format(cid, file_name, ",".join(dif_file)))
+                container_info[cid][file_name] = file_content
+
+        # check each cmd for new content
+        for cmd_name, cmd_path in cmd_to_check.items():
+            # list of cmds
+            cmd_content = docker("exec -it {} /bin/{}".format(cid, cmd_path)).split("\n")
+
+            # if there are no prexisting content, update. elif there are new content, update and call out with new content
+            if cmd_name not in container_info[cid]:
+                container_info[cid][cmd_name] = cmd_content
+            elif cmd_content != container_info[cid][cmd_name]:
+                dif_cmd = [f for f in cmd_content if f not in set(container_info[cid][cmd_name])]
+                print("{} {} updated with cmd ({})".format(cid, cmd_name, ",".join(dif_cmd)))
+                container_info[cid][cmd_name] = cmd_content
+
     time.sleep(1)
