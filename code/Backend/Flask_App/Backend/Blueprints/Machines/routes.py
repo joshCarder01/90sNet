@@ -11,12 +11,30 @@ from Backend import db
 from . import machines_blueprint
 
 
-@machines_blueprint.route("/getMachines", methods=["GET"])
+@machines_blueprint.route("/machines", methods=["GET"])
 def get_all_machines():
     """
     Expects no params, just gives all of the machines
     """
 
-    current_app.logger.debug("Begin /%s/ handling", machines_blueprint.url_prefix)
+    current_app.logger.debug("Begin /%s/ handling", "machines")
 
     return jsonify(db.session.execute(select(Machine)).scalars().all())
+
+
+@machines_blueprint.route("/machines/add", methods=["POST"])
+def add_machine():
+    if request.json:
+        new_machine = Machine(
+            id = request.json.get('id', None),
+            name = request.json.get("name", None),
+            score = request.json.get("score", None)
+        )
+        db.session.add(new_machine)
+        db.session.commit()
+
+        current_app.logger.info(f"New Machine: {str(new_machine)}")
+
+        return jsonify(new_machine)
+    else:
+        return "Must post json data", 400

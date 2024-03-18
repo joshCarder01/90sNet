@@ -15,6 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Providing Imports
-from .score_event import ScoreEvent as ScoreEvent
+from .event import Event as Event
 from .machine import Machine as Machine
 from .user import User as User
