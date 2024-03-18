@@ -21,10 +21,11 @@ dirs_to_check = {
 while True:
     for cid,c_info in container_info.items():
         for dir_name, dir_path in dirs_to_check.items():
-            dir_ls = docker("exec -it {} /bin/ls {}".format(cid, dir_path))
+            dir_ls = docker("exec -it {} /bin/ls {}".format(cid, dir_path)).split()
             if dir_name not in container_info[cid]:
                 container_info[cid][dir_name] = dir_ls
             elif dir_ls != container_info[cid][dir_name]:
-                print("{} {} updated".format(cid, dir_name))
+                dif_file = [f for f in dir_ls if f not in set(container_info[cid][dir_name])]
+                print("{} {} updated with file ({})".format(cid, dir_name, ",".join(dif_file)))
                 container_info[cid][dir_name] = dir_ls
     time.sleep(1)
