@@ -1,11 +1,9 @@
 from dataclasses import dataclass
-from typing import List
 
 from sqlalchemy import Integer, Text
-from sqlalchemy.orm import mapped_column, Mapped, Relationship
+from sqlalchemy.orm import mapped_column, Mapped
 
 from .base import Serializer
-from .score_event import ScoreEvent
 
 from Backend import db
 
@@ -20,4 +18,7 @@ class User(db.Model, Serializer):
     username: Mapped[str]           = mapped_column(Text, nullable=False, unique=True)
     name: Mapped[str]               = mapped_column(Text, nullable=True)
     #events: List[Mapped["Event"]]   = Relationship("Event", back_populates="user_id")
+
+    def __str__(self):
+        return f"User({self.id}, {self.username}, {self.name})"
     
