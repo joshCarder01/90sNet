@@ -14,6 +14,7 @@ while getopts "rsh" o; do
             ;;
         h|*)
             usage
+            exit
             ;;
     esac
 done
