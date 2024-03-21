@@ -28,7 +28,7 @@ class EventType(types.TypeDecorator):
     def process_bind_param(self, value: str | int, dialect: Dialect) -> int:
         # Fairly simple case since the input was a number which was in the enum
         if value in EventTypesEnum:
-            return value
+            return int(value)
         else:
             # May raise a KeyError
             return EventTypesEnum[value]
