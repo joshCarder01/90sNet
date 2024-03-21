@@ -62,10 +62,15 @@ def get_events_since():
 @events_blueprint.route("/events/add", methods=["POST"])
 def add_event():
     if request.json:
+        time = request.json.get('time', None)
+
+        # Convert timestamp into datetime object
+        if time is not None:
+            time = datetime.datetime.fromtimestamp(time)
         new_event = Event(
             id=request.json.get('id', None),                # Get id or use default
             type=request.json["type"],
-            time=request.json.get('time', None),            # Get time or use default time.time
+            time=time,                                      # Get time or use default time.time
             machine_id=request.json.get("machine_id", None),# get machine id or null
             user_id=request.json.get("user_id", None)       # get user id or null
         )
