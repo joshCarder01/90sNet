@@ -76,7 +76,7 @@ class Seeder:
             "users": users,
             "machines": machines,
             "events": events,
-            "runners": runners
+            # "runners": runners
         }
 
         return correctness_tester
