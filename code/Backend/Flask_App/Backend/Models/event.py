@@ -17,6 +17,9 @@ EPOCH= datetime.datetime.fromtimestamp(0, datetime.UTC)
 class EventTypesEnum(PyEnum):
     score = 0
     access = 1
+    file_mod = 2
+    root_dir_mod = 3
+    cmd_changed_output = 4
 
     @classmethod
     def from_num(cls, id: int) -> str:
@@ -45,7 +48,7 @@ class Event(db.Model, Serializer):
     id: Mapped[int]                     = mapped_column(Integer, primary_key=True)
     type: Mapped[EventTypesEnum]        = mapped_column(Enum(EventTypesEnum), nullable=False)
     time: Mapped[DateTime]              = mapped_column(DateTime, default=datetime.datetime.now(datetime.UTC), nullable=False)
-    user_id: Mapped[int]                = mapped_column(ForeignKey('user.id'))
+    user_id: Mapped[int]                = mapped_column(ForeignKey('user.id'), nullable=True)
     machine_id: Mapped[int]             = mapped_column(ForeignKey('machine.id'))
 
     @property
