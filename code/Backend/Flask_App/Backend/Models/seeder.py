@@ -11,7 +11,7 @@ from sqlalchemy.sql import func
 from typing import Union, Tuple, Dict
 
 from Backend import db
-from Backend.Models import Event, User, Machine, API_Runner
+from Backend.Models import Event, User, Machine
 
 MAX_INT=99999999
 
@@ -62,11 +62,11 @@ class Seeder:
 
         import uuid
         # Set up the runners
-        runners = (
-            API_Runner("test1", uuid.UUID("3a96b22d-a241-4549-9bf9-82d3edf72ac6")),
-        )
+        # runners = (
+        #     API_Runner("test1", uuid.UUID("3a96b22d-a241-4549-9bf9-82d3edf72ac6")),
+        # )
 
-        db.session.add_all(runners)
+        # db.session.add_all(runners)
 
         # Commit the database
         db.session.commit()
