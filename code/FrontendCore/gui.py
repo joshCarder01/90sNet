@@ -238,13 +238,17 @@ class FrontendGUI:
         cmd_str = stream[last_cmd+len(prompt):-1]
 
         request_id = self.net_client.http_command(cmd_str)
+        self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
 
+        # uncomment this block once chad gets his db stuff working and returning single cmd info
+        '''
         while True:
             cmd_result = self.net_client.send_and_receive_http('command', request_id)
             if cmd_result['id'] == request_id['id']:
                 break
 
         self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
+        '''
 
     
 
