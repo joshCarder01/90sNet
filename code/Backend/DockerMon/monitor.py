@@ -42,7 +42,7 @@ while True:
             elif dir_ls != container_info[cid][dir_name]:
                 dif_file = [f for f in dir_ls if f not in set(container_info[cid][dir_name])]
                 print("{} {} updated with file ({})".format(cid, dir_name, ",".join(dif_file)))
-                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"root_dir_mod", "machine_id":cid}).text
+                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"root_dir_mod", "machine_id":cid, "time":time.time()}).text
                 container_info[cid][dir_name] = dir_ls
 
         # check each file for new content
@@ -56,7 +56,7 @@ while True:
             elif file_content != container_info[cid][file_name]:
                 dif_file = [f for f in file_content if f not in set(container_info[cid][file_name])]
                 print("{} {} updated with file ({})".format(cid, file_name, ",".join(dif_file)))
-                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"file_mod", "machine_id":cid}).text
+                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"file_mod", "machine_id":cid, "time":time.time()}).text
                 container_info[cid][file_name] = file_content
 
         # check each cmd for new content
@@ -70,7 +70,7 @@ while True:
             elif cmd_content != container_info[cid][cmd_name]:
                 dif_cmd = [f for f in cmd_content if f not in set(container_info[cid][cmd_name])]
                 print("{} {} updated with cmd ({})".format(cid, cmd_name, ",".join(dif_cmd)))
-                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"cmd_changed_output", "machine_id":cid}).text
+                requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"cmd_changed_output", "machine_id":cid, "time":time.time()}).text
                 container_info[cid][cmd_name] = cmd_content
 
     time.sleep(1)
