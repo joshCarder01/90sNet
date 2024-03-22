@@ -2,6 +2,7 @@
 import subprocess
 import time
 import requests
+import json
 
 FLASK_IP = "127.0.0.1:5000"
 
@@ -28,6 +29,12 @@ files_to_check = {
 cmd_to_check = {
     "login_last":"last"
 }
+
+user_flag_locations = { #make sure all files here are also in files_to_check dict
+    "/hello_world.txt":"100"
+}
+
+
 
 while True:
     for cid,c_info in container_info.items():
@@ -57,6 +64,13 @@ while True:
                 dif_file = [f for f in file_content if f not in set(container_info[cid][file_name])]
                 print("{} {} updated with file ({})".format(cid, file_name, ",".join(dif_file)))
                 requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"file_mod", "machine_id":cid, "time":time.time()}).text
+
+                if file_path in user_flag_locations:
+                    users = json.loads(requests.get("http://{}/users".format(FLASK_IP),headers={'Content-Type':'application/json'},json={}).text)
+                    users = {user['username']:user['id'] for user in users}
+                    if dif_file[0].strip() in users:
+                        print("User '{}' scored".format(dif_file[0].strip()))
+                        t = requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"score", "machine_id":cid, "time":time.time(), "user_id":users[dif_file[0].strip()]}).text
                 container_info[cid][file_name] = file_content
 
         # check each cmd for new content
