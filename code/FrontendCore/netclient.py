@@ -26,6 +26,12 @@ class NetClient:
                          json=data)
         return r.text
     
+    def post_and_receive_http(self, command, data):
+        r = requests.post("http://{}:{}/{}".format(self.ip_address, self.port_number, command),
+                         headers={'Content-Type':'application/json'},
+                         json=data)
+        return r.text
+    
     # Shortcut for getting events since a time
     def getEventsSince(self, unix_time_code):
         # command struct
@@ -45,23 +51,25 @@ class NetClient:
     
     def http_command(self, cmd_str):
         cmd_dict = cmd_to_dict(cmd_str)
-        command = cmd_dict['command']
-        data = json.dumps(cmd_dict['options'])
-        self.send_and_receive(command, data)
+        #command = cmd_dict['cmd']
+        data = cmd_dict
+        print(data)
+        request_id = self.post_and_receive_http("command", data)
+        return request_id
     
 
 def cmd_to_dict(cmd_str):
     json_dict = {
-        'command':None,
+        'cmd':None,
         'args':[],
-        'options':{}
     }
 
     cmd_tokens = cmd_str.split(" ")
-    json_dict['command'] = cmd_tokens[0]
+    json_dict['cmd'] = cmd_tokens[0]
     
     token_ptr = 1
 
+    '''
     while token_ptr < len(cmd_tokens):
         token = cmd_tokens[token_ptr]
         if token.startswith("-") and not token.startswith("--"):
@@ -73,6 +81,12 @@ def cmd_to_dict(cmd_str):
         else:
             json_dict['args'] += [token]
         token_ptr += 1
+    '''
+    while token_ptr < len(cmd_tokens):
+        token = cmd_tokens[token_ptr]
+        json_dict['args'] += [token]
+        token_ptr += 1
+
 
     return json_dict
 

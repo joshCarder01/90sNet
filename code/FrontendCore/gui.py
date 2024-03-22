@@ -235,7 +235,14 @@ class FrontendGUI:
         prompt = "Admin> "
         last_cmd = stream.rfind(prompt)
 
-        cmd_result = stream[last_cmd+len(prompt):]
+        cmd_str = stream[last_cmd+len(prompt):-1]
+
+        request_id = self.net_client.http_command(cmd_str)
+
+        while True:
+            cmd_result = self.net_client.send_and_receive_http('command', request_id)
+            if cmd_result['id'] == request_id['id']:
+                break
 
         self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
 
