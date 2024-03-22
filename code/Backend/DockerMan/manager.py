@@ -1,14 +1,22 @@
 import subprocess
 import time
+import requests
+import json
+
+
+FLASK_IP = "127.0.0.1:5000"
 
 def docker(command):
     return subprocess.Popen(['docker']+command.split(" "), stdout=subprocess.PIPE).stdout.read().decode()
 
 while True:
-    # get commands
-    command_json = ""
-
-    for cmd in command_json:
-        # execute each command
-        # return result
-        pass
+    cmd = requests.get("http://{}/command".format(FLASK_IP),headers={'Content-Type':'application/json'},json={}).text
+    if cmd == 'null\n':
+        time.sleep(1)
+        continue
+    print(cmd)
+    cmd = json.loads(cmd)
+    if cmd['cmd'] == 'cli':
+        cmd_result = docker(" ".join(cmd['args']))
+        t=requests.get("http://{}/command".format(FLASK_IP),headers={'Content-Type':'application/json'},json={'id':cmd['id'], 'result':cmd_result}).text
+        print(t)
