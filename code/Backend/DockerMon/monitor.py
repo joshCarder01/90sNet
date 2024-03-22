@@ -17,6 +17,7 @@ for ci in container_info_dump[1:-1]:
     container_id = ci[:ci.find(" ")]
     container_name = ci[ci.rfind(" ")+1:]
     container_info[container_id] = {"name":container_name}
+    requests.post("http://{}/machines/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"machine_id":container_id, "name":container_name, "score":0}).text
 
 dirs_to_check = {
     "root":"/",
