@@ -4,6 +4,7 @@ import threading
 import time
 from PIL import ImageTk, Image  
 import datetime
+from FrontendCore import netclient
 
 import json
 
@@ -237,8 +238,14 @@ class FrontendGUI:
 
         cmd_str = stream[last_cmd+len(prompt):-1]
 
-        request_id = self.net_client.http_command(cmd_str)
-        self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
+        cmd_dict = netclient.cmd_to_dict(cmd_str)
+        if cmd_dict['cmd'] == "docker":
+            request_id = self.net_client.http_command(cmd_str)
+            self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
+        elif cmd_dict['cmd'] == "addUser":
+            response = self.net_client.post_and_receive_http("users/add", {"name":cmd_dict['args'][0], "username":cmd_dict['args'][1]})
+            self.write_to_stream(self.console, "{}\n{}".format(response, prompt))
+            self.user_scores[cmd_dict['args'][1]] = 0
 
         # uncomment this block once chad gets his db stuff working and returning single cmd info
         '''
