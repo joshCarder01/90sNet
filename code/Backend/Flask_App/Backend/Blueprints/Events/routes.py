@@ -10,6 +10,7 @@ from sqlalchemy import select
 from Backend.Models import Event
 from Backend import db
 from . import events_blueprint
+from Backend.common import HandleJSON
 
 
 @events_blueprint.route("/events", methods=["GET", "POST"])
@@ -61,7 +62,7 @@ def get_events_since():
 
 @events_blueprint.route("/events/add", methods=["POST"])
 def add_event():
-    if request.json:
+    with HandleJSON():
         time = request.json.get('time', None)
 
         # Convert timestamp into datetime object
@@ -71,14 +72,12 @@ def add_event():
             id=request.json.get('id', None),                # Get id or use default
             type=request.json["type"],
             time=time,                                      # Get time or use default time.time
-            machine_id=request.json.get("machine_id", None),# get machine id or null
+            machine_id=request.json['machine_id'],          # get machine id
             user_id=request.json.get("user_id", None)       # get user id or null
         )
         db.session.add(new_event)
         db.session.commit()
 
-        current_app.logger.debug(f"New event: {new_event.type.name} with {new_event.machine_id} - {new_event.user_id}")
+        current_app.logger.debug(f"New event: {new_event.type} with {new_event.machine_id} - {new_event.user_id}")
 
         return jsonify(Event.serialize(new_event))
-    else:
-        return "No JSON Detected", 400

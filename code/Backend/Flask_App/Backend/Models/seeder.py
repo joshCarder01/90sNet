@@ -5,13 +5,12 @@ from Backend.Models import *
 from datetime import datetime, UTC, timedelta
 import random
 
-from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
-from typing import Union, Tuple, Dict
+from typing import List, Union, Tuple, Dict
 
 from Backend import db
-from Backend.Models import Event, User, Machine
+from Backend.Models import Event, User, Machine, Models
 
 MAX_INT=99999999
 
@@ -42,9 +41,9 @@ class Seeder:
 
         # Setting up test machines
         machines = (
-            Machine(id=1001, name="machine0", score=500),
-            Machine(id=1002, name="machine1", score=800),
-            Machine(id=1003, name="machine2", score=1000)
+            Machine(id=1001, name="machine0", location="location1"),
+            Machine(id=1002, name="machine1", location="location2"),
+            Machine(id=1003, name="machine2", location="location3")
         )
 
         db.session.add_all(machines)
@@ -52,15 +51,19 @@ class Seeder:
 
         # Setting up score events
         events = (
-            Event(id=201, type="score", time=cls.seed_event_times[0], user_id=users[0].id, machine_id=machines[0].id),
-            Event(id=202, type="score", time=cls.seed_event_times[1], user_id=users[0].id, machine_id=machines[1].id),
-            Event(id=203, type="score", time=cls.seed_event_times[2], user_id=users[1].id, machine_id=machines[1].id),
-            Event(id=204, type="score", time=cls.seed_event_times[3], user_id=users[2].id, machine_id=machines[2].id)
+            Event(id=201, type="score", time=cls.seed_event_times[0],
+                  user_id=users[0].id, machine_id=machines[0].id, description="Event1"),
+            Event(id=202, type="score", time=cls.seed_event_times[1],
+                user_id=users[0].id, machine_id=machines[1].id, description="Event2"),
+            Event(id=203, type="score", time=cls.seed_event_times[2],
+                user_id=users[1].id, machine_id=machines[1].id, description="Event3"),
+            Event(id=204, type="score", time=cls.seed_event_times[3],
+                user_id=users[2].id, machine_id=machines[2].id, description="Event4")
         )
 
         db.session.add_all(events)
 
-        import uuid
+        #import uuid
         # Set up the runners
         # runners = (
         #     API_Runner("test1", uuid.UUID("3a96b22d-a241-4549-9bf9-82d3edf72ac6")),
@@ -82,65 +85,77 @@ class Seeder:
         return correctness_tester
     
     @classmethod
-    def __get_random_id(cls, model: Union[User, Machine]):
+    def __get_random_id(cls, model: Models):
         """
         Gets a random id from the selected table
         """
-        return db.session.query(model).order_by(func.random()).first().id
+        return model.query.order_by(func.random()).first().id
+    
+    @classmethod
+    def __big_random_int(cls):
+        return random.randint(0, MAX_INT)
 
     @classmethod
-    def user_factory(cls, num_records: int=10, base_name: str="User_"):
-        
+    def user_factory(cls,
+                     num_records: int=1,
+                     base_name: str="User_",
+                     add_username = True,
+                     ) -> Union[List[User], User]:
+        assert num_records >= 1
+
+        output = []
         # Creating this number of records
-        with Session(db.engine) as session:
-            for i in range(num_records):
-                session.add(
-                    User(
-                        id=random.randint(0,MAX_INT),
-                        username=base_name+str(i)
-                    )
+        base = cls.__big_random_int()
+        for i in range(base, base+num_records):
+            output.append(
+                User(
+                    id=random.randint(0,MAX_INT),
+                    username=base_name+str(i) if add_username else None
                 )
+            )
 
-            session.commit()
+        return output if len(output) > 1 else output[0]
     
     @classmethod
-    def machine_factory(cls, 
-                            num_records: int=10,
+    def machine_factory(cls,
+                            num_records: int=1,
                             machine_name: str = "machine_",
-                            score_min: int = 100,
-                            score_max: int = 1000,
-                            score_step: int = 100
-                        ):
+                            location_base: str = "location_",
+                        ) -> Union[List[Machine], Machine]:
+        assert num_records >= 1
 
-        with Session(db.engine) as session:
-            for i in range(num_records):
-                session.add(
-                    Machine(
-                        id = random.randint(0,MAX_INT),
-                        name = machine_name + str(i),
-                        score = random.randrange(score_min, score_max, score_step)
-                    )
+        output = []
+        base = cls.__big_random_int()
+        for i in range(base, base+num_records):
+            output.append(
+                Machine(
+                    id = random.randint(0,MAX_INT),
+                    name = machine_name + str(i),
+                    location= location_base + str(i)
                 )
+            )
 
-            session.commit()
+        return output if len(output) > 1 else output[0]
     
     @classmethod
-    def pwn_event_factory(cls,
-                        num_records: int = 10,
-                        max_sec_past: int = 600
-                    ):
-        
+    def event_factory(cls,
+                        num_records: int = 1,
+                        max_sec_past: int = 600,
+                    ) -> Union[List[Event] | Event]:
+        assert num_records >= 1
+
+        from Backend.Models.event import EventTypesEnum
         current = datetime.now()
-        with Session(db.engine) as session:
-            for _ in range(num_records):
-                session.add(
-                    Event(
-                        id = random.randint(0, MAX_INT),
-                        type = random.choice(('score', 'access')),
-                        time = current - timedelta(seconds=random.randint(0, max_sec_past)),
-                        user_id = cls.__get_random_id(User),
-                        machine_id = cls.__get_random_id(Machine)
-                    )
+        output = []
+        base = cls.__big_random_int()
+        for i in range(base, base+num_records):
+            output.append(
+                Event(
+                    id = random.randint(0, MAX_INT),
+                    type = random.choice(EventTypesEnum.get_names()),
+                    time = current - timedelta(seconds=random.randint(0, max_sec_past)),
+                    user_id = cls.__get_random_id(User),
+                    machine_id = cls.__get_random_id(Machine)
                 )
-            
-            session.commit()
+            )
+        return output if len(output) > 1 else output[0]

@@ -11,6 +11,9 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from sqlalchemy.orm import sessionmaker, scoped_session
+
+from .handlers import register_error_handlers
 
 
 # Flask because why not rest
@@ -29,7 +32,7 @@ def create_app() -> Flask:
     initialize_extensions(app)
     register_commands(app)
     register_blueprints(app)
-
+    register_error_handlers(app)
 
     # Getting Databse set up
     engine = sa.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
