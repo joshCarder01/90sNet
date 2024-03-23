@@ -25,10 +25,7 @@ class Seeder:
     )
 
     @classmethod
-    def SeedTestDatabase(cls):
-        db.drop_all()
-        # Create the initial Database
-        db.create_all()
+    def SeedTestDatabase(cls, session=db.session):
 
         # Setting up some test users
         users = (
@@ -49,6 +46,7 @@ class Seeder:
         db.session.add_all(machines)
 
 
+        session.flush()
         # Setting up score events
         events = (
             Event(id=201, type="score", time=cls.seed_event_times[0],
@@ -61,7 +59,7 @@ class Seeder:
                 user_id=users[2].id, machine_id=machines[2].id, description="Event4")
         )
 
-        db.session.add_all(events)
+        session.add_all(events)
 
         #import uuid
         # Set up the runners
@@ -72,7 +70,7 @@ class Seeder:
         # db.session.add_all(runners)
 
         # Commit the database
-        db.session.commit()
+        session.commit()
 
         # Object given to the test which contains all the correct values of the database
         correctness_tester: Dict[str, Union[Tuple[User], Tuple[Machine], Tuple[Event]]] = {

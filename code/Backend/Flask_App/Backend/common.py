@@ -4,6 +4,7 @@ from contextlib import AbstractContextManager
 from types import TracebackType
 from flask import request, current_app, has_request_context
 from werkzeug.exceptions import BadRequest
+from marshmallow import ValidationError
 
 from Backend.exceptions import MissingJSONKey
 
@@ -51,4 +52,7 @@ class HandleJSON(AbstractContextManager):
         if request.json is None:
             raise BadRequest("Request Requires JSON")
             
-        
+from sqlalchemy.orm import DeclarativeBase
+class _DBBase(DeclarativeBase):
+    def __str__(self):
+        return f"{str(self.__tablename__)}: {(i for i in self.col_names)}"

@@ -18,7 +18,8 @@ from .handlers import register_error_handlers
 
 # Flask because why not rest
 # app = Flask("90snet_backend")
-db = SQLAlchemy()
+from Backend.common import _DBBase
+db = SQLAlchemy(model_class=_DBBase)
 
 
 def create_app() -> Flask:

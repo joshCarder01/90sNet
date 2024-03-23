@@ -3,14 +3,14 @@ from dataclasses import dataclass
 from sqlalchemy import Integer, Text
 from sqlalchemy.orm import mapped_column, Mapped
 
-from .base import Serializer, _DBBase
+from .base import Serializer
 
 from Backend import db
 
 __all__ = ['User']
 
 @dataclass
-class User(db.Model(model_class=_DBBase), Serializer):
+class User(db.Model, Serializer):
 
     __tablename__ = "user"
 

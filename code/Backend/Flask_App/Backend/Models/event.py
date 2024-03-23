@@ -7,7 +7,7 @@ from typing import Any
 from sqlalchemy import Dialect, Integer, ForeignKey, DateTime, Enum, String, types
 from sqlalchemy.orm import mapped_column, Mapped
 
-from .base import Serializer, _DBBase
+from .base import Serializer
 from Backend import db
 
 __all__ = ['Event']
@@ -59,7 +59,7 @@ def _default_time():
     return datetime.datetime.now(datetime.UTC)
 
 @dataclass
-class Event(db.Model(model_class=_DBBase), Serializer):
+class Event(db.Model, Serializer):
 
     __tablename__ = "event"
 

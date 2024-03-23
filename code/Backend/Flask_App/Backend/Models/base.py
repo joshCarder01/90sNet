@@ -1,11 +1,4 @@
 from sqlalchemy.inspection import inspect
-from sqlalchemy.orm import DeclarativeBase
-
-__all__=['_DBBase']
-
-class _DBBase(DeclarativeBase):
-    def __str__(self):
-        return f"{str(self.__talbename__)}: {(i for i in self.col_names)}"
 
 
 class Serializer(object):
