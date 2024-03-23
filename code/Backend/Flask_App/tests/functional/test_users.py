@@ -4,9 +4,9 @@ Testing users requests for correctness
 from Backend.Blueprints import users_blueprint
 from Backend.Models import User
 
-from .common import find_id_in_json
+from .common import *
 
-def test_users_get_all(test_client, init_database):
+def test_users_get_all(test_client, test_data):
     """
     Test that when the `/users` page is accessed, it will get all of the users
     in the database.
@@ -17,15 +17,14 @@ def test_users_get_all(test_client, init_database):
     data: dict = response.json
 
     # Iterative Item Testing
-    for user_check in init_database['users']:
+    for user_check in test_data['users']:
         json_id = find_id_in_json(data, user_check.id)
-        assert data[json_id]['id'] == user_check.id
-        assert data[json_id]['username'] == user_check.username
-        assert data[json_id]['name'] == user_check.name
+        
+        assert_all_values(data[json_id], user_check)
 
-def test_users_post(test_client, init_database):
+def test_users_post(test_client, user):
 
-    new_user = {"id": 40289, "username": "some_new_user", "name": "This_Name"}
+    new_user = user.serialize()
     resp = test_client.post('/users/add', json=new_user)
 
     assert resp.status_code == 200
@@ -34,6 +33,5 @@ def test_users_post(test_client, init_database):
     data: (User | None) = User.query.filter_by(id = new_user['id']).scalar()
 
     assert data is not None
-    assert data.id == new_user['id']
-    assert data.username == new_user['username']
-    assert data.name == new_user['name']
+
+    assert_all_values(new_user, data)

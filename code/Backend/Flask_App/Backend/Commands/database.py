@@ -21,9 +21,13 @@ def init_database():
 def random_seeder():
     _init_db()
 
-    Seeder.user_factory(20)
-    Seeder.machine_factory(10)
-    Seeder.pwn_event_factory(30)
+    db.session.add_all(Seeder.user_factory(20))
+    db.session.add_all(Seeder.machine_factory(10))
+
+    db.session.commit()
+
+    db.session.add_all(Seeder.event_factory(30))
+    db.session.commit()
 
 @database_cli.cli.command("seed")
 def test_seeder():

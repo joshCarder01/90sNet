@@ -7,6 +7,7 @@ from sqlalchemy import select
 
 from Backend.Models import User
 from Backend import db
+from Backend.common import HandleJSON
 from . import users_blueprint
 
 
@@ -21,11 +22,12 @@ def get_all():
 
 @users_blueprint.post("/users/add")
 def add_user():
-    if request.json:
+
+    with HandleJSON():
         new_user = User(
             id = request.json.get('id', None),
             name = request.json.get("name", None),
-            username=request.json.get("username", None)            
+            username=request.json['username']
         )
         db.session.add(new_user)
         db.session.commit()
@@ -33,5 +35,3 @@ def add_user():
         current_app.logger.info(f"New User: {str(new_user)}")
 
         return jsonify(new_user)
-    else:
-        return "Must post json data", 400

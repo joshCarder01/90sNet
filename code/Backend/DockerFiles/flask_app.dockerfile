@@ -1,5 +1,12 @@
 from python:3.11.8-slim
 
+# Setup redis daemon
+RUN apt update && apt install -y redis systemctl && \
+    apt clean && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 6379
+RUN systemctl enable --now redis-server
+
 RUN mkdir -p /app
 COPY Flask_App/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
@@ -10,4 +17,4 @@ EXPOSE 5000
 COPY Flask_App /app
 WORKDIR /app
 
-CMD gunicorn --config /app/gunicorn_config.py app:app
+CMD bash /app/start_container.sh
