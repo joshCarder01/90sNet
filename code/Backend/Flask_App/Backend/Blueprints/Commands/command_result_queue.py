@@ -6,6 +6,7 @@ from typing import Union, List, TypedDict
 from collections.abc import Iterable
 from abc import abstractmethod, ABC
 from datetime import timedelta
+from werkzeug.exceptions import NotFound
 
 import sys
 from redis import Redis
@@ -97,7 +98,7 @@ class Command_Queue(BaseConnector):
 
 
 class Result_Dict(BaseConnector):
-    __key = "90snet:results:"
+    __key = "90snet:results:{}"
 
     @property
     def key(self):
@@ -105,10 +106,10 @@ class Result_Dict(BaseConnector):
     
     @property
     def search_key(self):
-        return self.__key + "*"
+        return self.__key.format('*')
     
     def id_key(self, id: int):
-        return self.__key + str(id)
+        return self.__key.format(str(id))
     
     def __setitem(self, key: int, value: TypedResult):
         return self.set_result(value)
@@ -126,13 +127,15 @@ class Result_Dict(BaseConnector):
         return len(removal) == self.connection.delete(*removal)
 
     def set_result(self, data: TypedResult):
-        self.connection.set(self.id_key(data["id"]), resultschema.dumps(data))
+        return self.connection.set(self.id_key(data["id"]), resultschema.dumps(data))
     
     def get_result(self, id: int) -> Union[TypedResult, None]:
         data = self.connection.get(self.id_key(id))
         if data is not None:
             # Set an expiration time for the result to prevent memeory leakage
             self.connection.expire(self.id_key(id), timedelta(minutes=2))
+        else:
+            raise NotFound("No result id exists")
         return resultschema.loads(data)
 
 def _panic(problematic):

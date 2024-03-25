@@ -25,7 +25,7 @@ def results_interface():
 
     else:
         with HandleJSON():
-            jsonify(get_result(request.json['id']))
+            return jsonify(get_result(request.json['id']))
 
 
 @commands_blueprint.route("/command", methods=["GET", "POST"])

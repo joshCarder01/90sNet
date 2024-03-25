@@ -8,6 +8,7 @@ services:
       dockerfile: DockerFiles/flask_app.dockerfile
     environment:
       - CONFIG_TYPE=config.ProductionConfig
+      #- CONFIG_TYPE=config.DevelopmentConfig
     volumes:
       - type: bind
         source: ./Flask_App/db
