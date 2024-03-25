@@ -15,8 +15,11 @@ while True:
         time.sleep(1)
         continue
     print(cmd)
+    print("---")
     cmd = json.loads(cmd)
     if cmd['cmd'] == 'cli':
         cmd_result = docker(" ".join(cmd['args']))
-        t=requests.get("http://{}/command".format(FLASK_IP),headers={'Content-Type':'application/json'},json={'id':cmd['id'], 'result':cmd_result}).text
+        print(cmd_result)
+        print("---")
+        t=requests.post("http://{}/command/results".format(FLASK_IP),headers={'Content-Type':'application/json'},json={'id':cmd['id'], 'result':cmd_result}).text
         print(t)

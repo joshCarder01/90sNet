@@ -240,8 +240,23 @@ class FrontendGUI:
 
         cmd_dict = netclient.cmd_to_dict(cmd_str)
         if cmd_dict['cmd'] == "docker":
-            request_id = self.net_client.http_command(cmd_str)
+            m_cmd_dict = cmd_dict
+            m_cmd_dict['cmd'] = 'cli'
+            request_id = json.loads(self.net_client.http_command(netclient.cmd_dict_to_str(m_cmd_dict)))
+            print(request_id)
+            '''
+            request_id = json.loads(self.net_client.http_command(" ".join(['cli'] + cmd_str.split(" ")[1:])))
             self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
+            while True:
+                cmd_result = json.loads(self.net_client.send_and_receive_http('command/result', request_id))
+                print(cmd_result)
+                print(request_id)
+                if cmd_result['id'] == request_id['id']:
+                    break
+
+            self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
+            '''
+            self.write_to_stream(self.console, "{}\n{}".format("", prompt))
         elif cmd_dict['cmd'] == "addUser":
             response = self.net_client.post_and_receive_http("users/add", {"name":cmd_dict['args'][0], "username":cmd_dict['args'][1]})
             self.write_to_stream(self.console, "{}\n{}".format(response, prompt))

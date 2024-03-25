@@ -53,7 +53,6 @@ class NetClient:
         cmd_dict = cmd_to_dict(cmd_str)
         #command = cmd_dict['cmd']
         data = cmd_dict
-        print(data)
         request_id = self.post_and_receive_http("command", data)
         return request_id
     
@@ -89,6 +88,9 @@ def cmd_to_dict(cmd_str):
 
 
     return json_dict
+
+def cmd_dict_to_str(cmd_dict):
+    return cmd_dict['cmd'] + " " + " ".join(cmd_dict['args'])
 
 def cmd_to_json(cmd_str):
     return json.dump(cmd_to_dict(cmd_str))
