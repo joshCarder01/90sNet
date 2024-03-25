@@ -17,7 +17,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_ENGINE_OPTIONS = {"echo": True}
+    # SQLALCHEMY_ENGINE_OPTIONS = {"echo": True}
 
 class TestingConfig(DevelopmentConfig):
     TESTING = True
