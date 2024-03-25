@@ -243,7 +243,14 @@ class FrontendGUI:
             m_cmd_dict = cmd_dict
             m_cmd_dict['cmd'] = 'cli'
             request_id = json.loads(self.net_client.http_command(netclient.cmd_dict_to_str(m_cmd_dict)))
-            print(request_id)
+            while True:
+                cmd_result = self.net_client.send_and_receive_http('command/results', request_id)
+                if str(request_id['id']) in cmd_result:
+                    cmd_result = json.loads(cmd_result)
+                    if cmd_result['id'] == request_id['id']:
+                        break
+
+            self.write_to_stream(self.console, "{}\n{}".format(cmd_result['result'], prompt))
             '''
             request_id = json.loads(self.net_client.http_command(" ".join(['cli'] + cmd_str.split(" ")[1:])))
             self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
