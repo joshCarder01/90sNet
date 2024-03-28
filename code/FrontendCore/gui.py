@@ -176,7 +176,13 @@ class FrontendGUI:
         self.event_stream_container.yview_moveto(1)
 
     def update_score_db(self, time_stamp, event):
-        event_type = event['type']
+        #event_type = event['type']
+        if event["type"] == 'score':
+            username, val = event['description'].split(',')
+            val = int(val)
+            self.user_scores[username] += val
+        
+        '''
         # If it is not a score related event, return
         if event_type != "addScore" and event_type != "setScore":
             return
@@ -192,6 +198,7 @@ class FrontendGUI:
             print(self.user_scores)
         elif event_type == 'addScore':
             self.user_scores[user] += value
+        '''
 
     def display_scores(self):
         self.scoreboard.delete('all')

@@ -71,7 +71,7 @@ while True:
                     users = {user['username']:user['id'] for user in users}
                     if dif_file[0].strip() in users:
                         print("User '{}' scored".format(dif_file[0].strip()))
-                        t = requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"score", "machine_id":cid, "time":time.time(), "user_id":users[dif_file[0].strip()]}).text
+                        t = requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"score", "machine_id":cid, "time":time.time(), "user_id":users[dif_file[0].strip()], 'description':'{},100'.format(dif_file[0].strip())}).text
                 container_info[cid][file_name] = file_content
 
         # check each cmd for new content
