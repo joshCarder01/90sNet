@@ -1,0 +1,77 @@
+{
+    "Manti": {
+        "subnet": "10.145.{}.{}"
+    },
+    "Rhodes": {
+        "subnet": "10.202.{}.{}"
+    },
+    "Baldwin": {
+        "subnet": "10.30.{}.{}"
+    },
+    "OldChem": {
+        "subnet": "10.40.{}.{}"
+    },
+    "Swift": {
+        "subnet": "10.216.{}.{}"
+    },
+    "TUC": {
+        "subnet": "10.60.{}.{}"
+    },
+    "Crosley": {
+        "subnet": "10.129.{}.{}"
+    },
+    "Reviechel": {
+        "subnet": "10.236.{}.{}"
+    },
+    "Zimmer": {
+        "subnet": "10.88.{}.{}"
+    },
+    "Langsam": {
+        "subnet": "10.8.{}.{}"
+    },
+    "Lindner": {
+        "subnet": "10.96.{}.{}"
+    },
+    "Scioto": {
+        "subnet": "10.226.{}.{}"
+    },
+    "Morgans": {
+        "subnet": "10.181.{}.{}"
+    },
+    "Sawyer": {
+        "subnet": "10.76.{}.{}"
+    },
+    "French": {
+        "subnet": "10.222.{}.{}"
+    },
+    "Alumni": {
+        "subnet": "10.79.{}.{}"
+    },
+    "Dabney": {
+        "subnet": "10.63.{}.{}"
+    },
+    "Daniels": {
+        "subnet": "10.107.{}.{}"
+    },
+    "AARC": {
+        "subnet": "10.29.{}.{}"
+    },
+    "Calhoun": {
+        "subnet": "10.211.{}.{}"
+    },
+    "Siddal": {
+        "subnet": "10.185.{}.{}"
+    },
+    "CCM": {
+        "subnet": "10.27.{}.{}"
+    },
+    "Law": {
+        "subnet": "10.67.{}.{}"
+    },
+    "CECH": {
+        "subnet": "10.15.{}.{}"
+    },
+    "Coal": {
+        "subnet": "10.247.{}.{}"
+    }
+}

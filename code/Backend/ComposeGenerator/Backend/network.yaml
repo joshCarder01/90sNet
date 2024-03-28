@@ -1,0 +1,27 @@
+
+
+networks:
+  # Networks the competition happens on. Will be isolated for
+  # the rest of the internet. Thus competitors shouldn't be
+  # able to get into anything else.
+  uc_net:
+    driver: bridge
+    name: uc_net
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/17
+          gateway: 10.76.0.1
+  # This is the external network which should only
+  # connect with the proxies to whoever actually needs to use them
+  proxy_net:
+    driver: bridge
+    name: proxy_net
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.128.0.0/17
+          gateway: 10.128.0.1
+          
+
+
