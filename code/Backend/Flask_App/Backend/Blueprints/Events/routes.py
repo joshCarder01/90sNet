@@ -69,11 +69,12 @@ def add_event():
         if time is not None:
             time = datetime.datetime.fromtimestamp(time)
         new_event = Event(
-            id=request.json.get('id', None),                # Get id or use default
+            id=request.json.get('id', None),                    # Get id or use default
             type=request.json["type"],
-            time=time,                                      # Get time or use default time.time
-            machine_id=request.json['machine_id'],          # get machine id
-            user_id=request.json.get("user_id", None)       # get user id or null
+            time=time,                                          # Get time or use default time.time
+            machine_id=request.json['machine_id'],              # get machine id
+            user_id=request.json.get("user_id", None),          # get user id or null
+            description=request.json.get('description', None),  # get the description or null
         )
         db.session.add(new_event)
         db.session.commit()

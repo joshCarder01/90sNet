@@ -139,6 +139,7 @@ class Seeder:
     def event_factory(cls,
                         num_records: int = 1,
                         max_sec_past: int = 600,
+                        description_base: str = 'Some Description '
                     ) -> Union[List[Event] | Event]:
         assert num_records >= 1
 
@@ -153,7 +154,8 @@ class Seeder:
                     type = random.choice(EventTypesEnum.get_names()),
                     time = current - timedelta(seconds=random.randint(0, max_sec_past)),
                     user_id = cls.__get_random_id(User),
-                    machine_id = cls.__get_random_id(Machine)
+                    machine_id = cls.__get_random_id(Machine),
+                    description= description_base + str(random.randint(50,300))
                 )
             )
         return output if len(output) > 1 else output[0]

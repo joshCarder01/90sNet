@@ -127,7 +127,11 @@ class Result_Dict(BaseConnector):
         return len(removal) == self.connection.delete(*removal)
 
     def set_result(self, data: TypedResult):
-        return self.connection.set(self.id_key(data["id"]), resultschema.dumps(data))
+        return self.connection.set(
+                    self.id_key(data["id"]),
+                    resultschema.dumps(data),
+                    ex=timedelta(minutes=10)
+                )
     
     def get_result(self, id: int) -> Union[TypedResult, None]:
         data = self.connection.get(self.id_key(id))
