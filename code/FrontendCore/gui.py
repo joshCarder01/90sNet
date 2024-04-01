@@ -160,8 +160,10 @@ class FrontendGUI:
         tk_object.see("end")
 
     def display_event(self, time_stamp, event):
-        event_type = event['type']
-        details = ", ".join(["{}: {}".format(k,v) for k,v in event.items()])
+        devent = event.copy()
+        event_type = devent['type']
+        devent.pop('description')
+        details = ", ".join(["{}: {}".format(k,v) for k,v in devent.items()])
         event_text = "{}: {}\n{}\n{}".format(str(datetime.datetime.fromtimestamp(float(time_stamp)))[-15:-7], event_type, details, " "*75)
         new_event = Message(self.event_stream_frame,
                     fg="#94d6fe",
@@ -232,6 +234,7 @@ class FrontendGUI:
                 time_stamp = event['time']
                 # update event stream
                 self.display_event(time_stamp, event)
+                print(event)
                 # update scoreboard
                 self.update_score_db(time_stamp, event)
                 # TODO: update map
