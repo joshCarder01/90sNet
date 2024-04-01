@@ -52,7 +52,7 @@ class DockerContainer:
         return output
 
 class ContainerSet:
-    _containers: typing.List[DockerContainer] = []
+    _containers: typing.List[DockerContainer]
     __count: int
     __image: str
     __location: str
@@ -69,11 +69,12 @@ class ContainerSet:
         self.__location = args['location']
         self.__other_options = args.get('other_options', None)
         self.__proxy = args.get('proxy', False)
+        self._containers = []
 
         self.__setup_containers()
     
     def __setup_containers(self):
-        for i in self.__count:
+        for i in range(self.__count):
             self._containers.append(
                 DockerContainer(
                     image=self.__image,
