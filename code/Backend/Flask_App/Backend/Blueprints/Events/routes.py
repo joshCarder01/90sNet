@@ -13,7 +13,7 @@ from . import events_blueprint
 from Backend.common import HandleJSON
 
 
-@events_blueprint.route("/events", methods=["GET", "POST"])
+@events_blueprint.route("/events", methods=["GET"])
 def get_all_events():
     """
     Expects no params, just gives all of the events
