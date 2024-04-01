@@ -1,13 +1,15 @@
 """
 Storing location mapping for IPs
 """
-from common import _gateway
-from config import BasicConfig
+from typing import Dict
+
+from .common import _gateway, BasicConfig
 
 
 import yaml
 
-NETWORK = yaml.load(open(BasicConfig.NETWORK_YAML_PATH))
+with open(BasicConfig.get_resources('network.yaml'), 'r') as ifile:
+    NETWORK: Dict[str, Dict[str, str]] = yaml.load(ifile, yaml.SafeLoader)
 
 # NETWORK_CREATION=dict(
 #     networks=dict(

@@ -1,6 +1,5 @@
 import typing
-from Backend.config import BasicConfig
-from common import get_ip
+from .common import get_ip, BasicConfig
 
 class DockerContainer:
     """
@@ -42,14 +41,12 @@ class DockerContainer:
     
     def raw_dictionary(self):
 
-        output = {
-            self.service(): dict(
+        output = dict(
                 image= self.image,
                 container_name= self.name,
                 networks= self.networks,
                 **self.__other_options
             )
-        }
         return output
 
 class ContainerSet:
@@ -83,4 +80,14 @@ class ContainerSet:
                     proxy = self.__proxy
                 )
             )
+    
+    def append(self, other):
+        self._containers.append(other.containers)
+
+    def raw_dictionary(self):
+        output = {}
+        for i in self._containers:
+            output[i.service()] = i.raw_dictionary()
+        
+        return output
 
