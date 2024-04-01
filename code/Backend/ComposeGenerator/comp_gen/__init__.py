@@ -1,5 +1,6 @@
 import os
 import yaml
+import logging
 
 
 from .reader import read_config
@@ -7,6 +8,7 @@ from .network import NETWORK
 from .common import BasicConfig
 
 def setup_dictionary(config_file):
+    logging.info("Inputing configuration file")
     assembling = NETWORK
 
     # if not os.path.exists(config_path):
@@ -16,6 +18,8 @@ def setup_dictionary(config_file):
     config = read_config(config_file)
 
     assembling[BasicConfig.SERVICES] = config.raw_dictionary()
+
+    logging.debug(f"Assembled: {str(assembling)}")
 
     return assembling
 

@@ -1,4 +1,8 @@
 import argparse
+import logging
+logging.basicConfig(format='[%(levelname)s|%(filename)s|%(funcName)s-%(lineno)d]: %(message)s',level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 from . import run
 
 def get_args() -> argparse.Namespace:
