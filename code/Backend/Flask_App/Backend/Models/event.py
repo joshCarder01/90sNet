@@ -5,9 +5,10 @@ from enum import Enum as PyEnum
 from typing import Any
 
 from sqlalchemy import Dialect, Integer, ForeignKey, DateTime, Enum, String, types
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from .base import Serializer
+from .machine import Machine
 from Backend import db
 
 __all__ = ['Event']
@@ -68,6 +69,7 @@ class Event(db.Model, Serializer):
     time: Mapped[DateTime]              = mapped_column(DateTime, default=_default_time, nullable=False)
     user_id: Mapped[int]                = mapped_column(ForeignKey('user.id'), nullable=True)
     machine_id: Mapped[int]             = mapped_column(ForeignKey('machine.id'))
+    machine_name: Mapped[str]           = mapped_column(String, nullable=False)
     description: Mapped[str]            = mapped_column(String, nullable=True)
 
     @property
