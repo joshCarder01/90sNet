@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, validate, post_load
 
+from comp_gen.common import BasicConfig
 from comp_gen.network import NETWORK
 
 __COUNT_ERROR_STR="Count field must have atleast 1 as its value"
@@ -18,19 +19,19 @@ class ConfigElement:
         self.other_options = other_options
 
 class ConfigElementSchema(Schema):
-    image = fields.Str(required=True),
+    image = fields.Str(required=True)
     count = fields.Integer(
                 load_default=1,
                 validate=validate.Range(
                     min=1,
                     error="Count field must have atleast 1 as its value"
                 )
-                ),
-    proxy = fields.Bool(load_default=False),
+                )
+    proxy = fields.Bool(load_default=False)
     location = fields.Str(
         required=True,
         validate=validate.OneOf(
-            NETWORK.keys(),
+            BasicConfig.locations(),
             error="Invalid location in config"
         )
     )

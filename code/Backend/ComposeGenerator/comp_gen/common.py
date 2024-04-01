@@ -28,11 +28,15 @@ class BasicConfig:
     PROXY_NET='proxy_net'
     INTERNAL_NET='uc_net'
     SERVICES='services'
-
+    LOCATION_NETWORKS: typing.Dict[str, typing.Dict[str, typing.Any]] = json.load(open(os.path.join(_BASE_PATH, 'resources', 'network.json'), 'r'))
 
     @property
     def NETWORK_YAML_FILE(cls) -> str:
         return cls.get_resources('network.yaml')
+    
+    @classmethod
+    def locations(cls) -> typing.List[str]:
+        return [i for i in cls.LOCATION_NETWORKS.keys()]
 
     @classmethod
     def get_resources(cls, resource_file: str) -> str:
@@ -83,7 +87,7 @@ def get_ip(location: str):
         __location_networks[location][strings_subnet.max] = subnet_max
     
     while True:
-        output = __location_networks[location][strings_subnet.fmt].format(current_subnet, __rand_octet)
+        output = __location_networks[location][strings_subnet.fmt].format(current_subnet, __rand_octet())
         if output in previous_ips:
             continue
         subnet_count += 1
