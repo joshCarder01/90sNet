@@ -5,6 +5,7 @@ from Backend.Models import *
 from datetime import datetime, UTC, timedelta
 import random
 
+from sqlalchemy.orm import load_only
 from sqlalchemy.sql import func
 
 from typing import List, Union, Tuple, Dict
@@ -50,13 +51,13 @@ class Seeder:
         # Setting up score events
         events = (
             Event(id=201, type="score", time=cls.seed_event_times[0],
-                  user_id=users[0].id, machine_id=machines[0].id, description="Event1"),
+                  user_id=users[0].id, machine_id=machines[0].id, machine_name=machines[0].name, description="Event1"),
             Event(id=202, type="score", time=cls.seed_event_times[1],
-                user_id=users[0].id, machine_id=machines[1].id, description="Event2"),
+                user_id=users[0].id, machine_id=machines[1].id, machine_name=machines[0].name, description="Event2"),
             Event(id=203, type="score", time=cls.seed_event_times[2],
-                user_id=users[1].id, machine_id=machines[1].id, description="Event3"),
+                user_id=users[1].id, machine_id=machines[1].id, machine_name=machines[0].name, description="Event3"),
             Event(id=204, type="score", time=cls.seed_event_times[3],
-                user_id=users[2].id, machine_id=machines[2].id, description="Event4")
+                user_id=users[2].id, machine_id=machines[2].id, machine_name=machines[0].name, description="Event4")
         )
 
         session.add_all(events)
@@ -148,13 +149,17 @@ class Seeder:
         output = []
         base = cls.__big_random_int()
         for i in range(base, base+num_records):
+            mid = cls.__get_random_id(Machine)
+            mname = Machine.query.with_entities(Machine.name).where(Machine.id == mid).one()[0]
+            print(mname)
             output.append(
                 Event(
                     id = random.randint(0, MAX_INT),
                     type = random.choice(EventTypesEnum.get_names()),
                     time = current - timedelta(seconds=random.randint(0, max_sec_past)),
                     user_id = cls.__get_random_id(User),
-                    machine_id = cls.__get_random_id(Machine),
+                    machine_id = mid,
+                    machine_name=mname,
                     description= description_base + str(random.randint(50,300))
                 )
             )
