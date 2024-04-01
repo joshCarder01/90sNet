@@ -67,7 +67,7 @@ while True:
                 # if new info, print, push, and add data
                 elif containers[c_name]['dirs'][path] != dir_ls:
                     print("{} {} updated with ({})".format(c_name, path, dir_ls))
-                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"root_dir_mod", "machine_id":cid, "time":time.time()}).text
+                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"root_dir_mod", "machine_id":cid, "time":time.time(), "description":dir_ls, "machine_name":c_name}).text
                     containers[c_name]['dirs'][path] = dir_ls
 
             #check files
@@ -80,7 +80,7 @@ while True:
                 # if new info, print, push, and add data
                 elif containers[c_name]['files'][path] != file_content:
                     print("{} {} updated with ({})".format(c_name, path, file_content))
-                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"file_mod", "machine_id":cid, "time":time.time()}).text
+                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"file_mod", "machine_id":cid, "time":time.time(), "description":file_content, "machine_name":c_name}).text
                     containers[c_name]['files'][path] = file_content
 
             #check cmds
@@ -93,7 +93,7 @@ while True:
                 # if new info, print, push, and add data
                 elif containers[c_name]['cmds'][path] != file_content:
                     print("{} {} updated with ({})".format(c_name, path, file_content))
-                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"cmd_changed_output", "machine_id":cid, "time":time.time()}).text
+                    requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"cmd_changed_output", "machine_id":cid, "time":time.time(), "description":file_content, "machine_name":c_name}).text
                     containers[c_name]['cmds'][path] = file_content
 
             #check flags
@@ -113,7 +113,7 @@ while True:
                     potential_user = file_content.strip()
                     if potential_user in users:
                         print("{} scored {}".format(potential_user, score))
-                        requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"score", "machine_id":cid, "time":time.time(), "description":"{},{}".format(potential_user, score)}).text
+                        requests.post("http://{}/events/add".format(FLASK_IP),headers={'Content-Type':'application/json'},json={"type":"score", "machine_id":cid, "time":time.time(), "description":"{},{}".format(potential_user, score), "machine_name":c_name}).text
                         containers[c_name]['flags'][path] = file_content
     time.sleep(1)
                     
