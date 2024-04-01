@@ -6,7 +6,7 @@ class DockerContainer:
     Description class for docker containers, should be able to store the 
     necessary information to set everything up.
     """
-    name: str
+    _name: str
     image: str
     location: str
     __ip: str
@@ -16,7 +16,7 @@ class DockerContainer:
 
     def load(self, d: dict):
         self.image = d['image']
-        self.name = d.get('name', self.image)
+        self._name = d.get('name', None)
         self.location = d['location']
         self.networks = {
                 BasicConfig.INTERNAL_NET:
@@ -34,7 +34,9 @@ class DockerContainer:
     
     @property
     def name(self):
-        return '{}_{}_{}'.format(self.image, self.location, self.ip)
+        if self._name is None:
+            return '{}_{}_{}'.format(self.image, self.location, self.ip)
+        return self._name
 
     def service(self):
         return '{}_{}_{}'.format(self.image, self.location, self.ip)
@@ -43,7 +45,7 @@ class DockerContainer:
 
         output = dict(
                 image= self.image,
-                container_name= self.name,
+                container_name= self._name,
                 networks= self.networks,
                 **self.__other_options
             )
