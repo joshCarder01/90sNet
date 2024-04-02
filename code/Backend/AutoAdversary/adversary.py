@@ -21,7 +21,19 @@ def getEventsSince(unix_time_code):
     return new_events, time_last_event
 
 def get_last_setup_index(aaaction):
-    pass
+    setup_lst = aaaction['setup']
+    t = time.time()
+
+    for i, setup_item in enumerate(setup_lst):
+        if setup_item['time'] != None:
+            continue
+        if i == 0:
+            return i
+        if setup_lst[i-1]['timeout'] + setup_lst[i-1]['time'] > t:
+            return None
+        else:
+            return i
+    return -1
 
 event_checks = {
     "proxy":{
@@ -31,19 +43,19 @@ event_checks = {
                     "type":"file_mod", #event type
                     "keyword":"blueberry", #keyword in description
                     "time":None, # time event happens
-                    "timeout":30, #timeout for waiting for next event to happen
+                    "timeout":1, #timeout for waiting for next event to happen
                 },
                 {
                     "type":"file_mod",
                     "keyword":"raspberry",
                     "time":None,
-                    "timeout":30,
+                    "timeout":1,
                 },
                 ],
             "actions":[
                 {
                     "cmd":"cli",
-                    "args":"exec -it proxy wall I see you",
+                    "args":"exec -it proxy touch ISeeYou",
                     "delay":0, #delay for next action
                 }
             ]
@@ -53,7 +65,7 @@ event_checks = {
 
 
 
-last_time = 0
+last_time = time.time()
 events = None
 while True:
     events, last_time = getEventsSince(last_time)
@@ -63,5 +75,22 @@ while True:
         for machine_name, AAactions in event_checks.items():
             if event["machine_name"] != machine_name:
                 continue
-            for AAaction in AAactions:
-                print(AAaction)
+            for AAAName, AAaction in AAactions.items():
+                i = get_last_setup_index(AAaction)
+                if i == None or i == -1:
+                    continue
+                step = AAaction['setup'][i]
+                if step['type'] == event['type'] and step['keyword'] in event['description']:
+                    print("found")
+                    event_checks[machine_name][AAAName]['setup'][i]['time'] = time.time()
+                if i == len(AAaction['setup']) - 1 and get_last_setup_index(AAaction) == -1:
+                    print("take action")
+                    for action in AAaction['actions']:
+                        data = {}
+                        data['cmd'] = action['cmd']
+                        data['args'] = action['args'].split()
+                        r = requests.post("http://{}/{}".format(FLASK_IP, "command"),
+                            headers={'Content-Type':'application/json'},
+                            json=data)
+                        time.sleep(action['delay'])
+                    continue
