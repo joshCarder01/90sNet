@@ -15,8 +15,9 @@ def command_run():
     args = get_args()
 
     logging.basicConfig(
-        format='[%(levelname)s|%(filename)s|%(funcName)s-%(lineno)d]: %(message)s',
-        level=logging.DEBUG if args.verbose else logging.INFO
+            format='┌─╴[{levelname:s}|{filename:s}|{funcName:s}-{lineno:d}]\n└╴{message:s}\n',
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        style='{',
     )
 
 

@@ -28,6 +28,7 @@ class BasicConfig:
     PROXY_NET='proxy_net'
     INTERNAL_NET='uc_net'
     SERVICES='services'
+    IP_ADDR="ipv4_address"
     LOCATION_NETWORKS: typing.Dict[str, typing.Dict[str, typing.Any]] = json.load(open(os.path.join(_BASE_PATH, 'resources', 'network.json'), 'r'))
 
     @property

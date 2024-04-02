@@ -18,23 +18,24 @@ def read_config(input) -> ContainerSet:
     deserializer = ConfigElementSchema(many=True)
 
     config: List[dict] = deserializer.load(raw)
-    logging.debug("Deserialized")
+    logging.debug("Deserialized: %s", str(config))
 
-    intermediate = []
+    intermediate = ContainerSet()
     for i in config:
         logging.debug("setup intermediate: %s", str(i))
-        intermediate.append(ContainerSet(**i))
+        intermediate.append(**i)
 
-    logging.debug('Setup containersets from config output')
+    # logging.debug('Setup containersets from config output')
 
-    logging.debug('condensing containersets')
-    main_set: ContainerSet = intermediate.pop(0)
+    # logging.debug('condensing containersets')
+    # main_set: ContainerSet = intermediate.pop(0)
 
-    for i in intermediate:
-        main_set.append(i)
+    # logging.debug('main_set: %s', main_set)
+    # for i in intermediate:
+    #     main_set.append(i)
     
-    logging.debug("Finished condensing containersets")
+    # logging.debug("Finished condensing containersets")
 
     logging.info("Configuration File Successfully Processed")
 
-    return main_set
+    return intermediate

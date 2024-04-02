@@ -21,6 +21,7 @@ class ConfigElement:
 class ConfigElementSchema(Schema):
     image = fields.Str(required=True)
     count = fields.Integer(
+                allow_none=False,
                 load_default=1,
                 validate=validate.Range(
                     min=1,
