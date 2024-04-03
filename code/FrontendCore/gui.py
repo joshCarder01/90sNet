@@ -107,6 +107,7 @@ class FrontendGUI:
         with open("FrontendCore/nodes.json") as json_file:
             self.node_data = json.load(json_file)
         for name, data in self.node_data.items():
+            self.node_data[name]['elapse'] = -1
             r = 7
             x0 = data['location'][0] - r
             y0 = data['location'][1] - r
@@ -184,23 +185,32 @@ class FrontendGUI:
             val = int(val)
             self.user_scores[username] += val
         
-        '''
-        # If it is not a score related event, return
-        if event_type != "addScore" and event_type != "setScore":
+    def update_map(self, time_stamp, event):
+        image, location, ip = event['machine_name'].split("_")
+        if location not in self.node_data:
             return
-        # if malformed, return
-        if "user" not in event[event_type] or "value" not in event[event_type]:
-            print("malformed score event. should have user and value keys")
-            return
-        # assign score
-        user = event[event_type]['user']
-        value = event[event_type]['value']
-        if event_type == "setScore" or user not in self.user_scores:
-            self.user_scores[user] = value
-            print(self.user_scores)
-        elif event_type == 'addScore':
-            self.user_scores[user] += value
-        '''
+        data = self.node_data[location]
+        data['elapse'] = 1
+        r = 7
+        x0 = data['location'][0] - r
+        y0 = data['location'][1] - r
+        x1 = data['location'][0] + r
+        y1 = data['location'][1] + r
+        o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="#3333FF")
+
+    def reset_map_updates(self):
+        for name, data in self.node_data.items():
+            if data['elapse'] > 0:
+                data['elapse'] -= 1
+            else:
+                data['elapse'] = 1
+                r = 7
+                x0 = data['location'][0] - r
+                y0 = data['location'][1] - r
+                x1 = data['location'][0] + r
+                y1 = data['location'][1] + r
+                o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="#e13038")
+
 
     def display_scores(self):
         self.scoreboard.delete('all')
@@ -227,6 +237,7 @@ class FrontendGUI:
     def update_gui(self):
         time_last_event = 0
         while self.run_thread:
+            self.reset_map_updates()
             # get updated events from server
             new_events, time_last_event = self.net_client.getEventsSince(time_last_event)
             # for each event, update display as needed
@@ -237,7 +248,8 @@ class FrontendGUI:
                 print(event)
                 # update scoreboard
                 self.update_score_db(time_stamp, event)
-                # TODO: update map
+                #update map
+                self.update_map(time_stamp, event)
             self.display_scores()
             time.sleep(5)
 
