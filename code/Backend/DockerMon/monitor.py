@@ -3,8 +3,11 @@ import subprocess
 import time
 import requests
 import json
+import sys
 
 FLASK_IP = "127.0.0.1:5000"
+if len(sys.argv) > 1:
+    FLASK_IP = sys.argv[1]
 
 def docker(command):
     return subprocess.Popen(['docker']+command.split(" "), stdout=subprocess.PIPE).stdout.read().decode()
@@ -55,6 +58,8 @@ while True:
         
         # for each container in check
         for c_name in c_names:
+            if c_name not in containers:
+                continue
             cid = containers[c_name]['id']
 
             #check dirs

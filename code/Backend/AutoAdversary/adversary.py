@@ -1,8 +1,11 @@
 import requests
 import json
 import time
+import sys
 
 FLASK_IP = "127.0.0.1:5000"
+if len(sys.argv) > 1:
+    FLASK_IP = sys.argv[1]
 
 def getEventsSince(unix_time_code):
     command = "getEventsSince"
@@ -36,7 +39,7 @@ def get_last_setup_index(aaaction):
     return -1
 
 event_checks = {
-    "proxy":{
+    "proxy_Crosley_10.46.47.196":{
         "AAAction1":{
             "setup":[
                 {
@@ -55,7 +58,7 @@ event_checks = {
             "actions":[
                 {
                     "cmd":"cli",
-                    "args":"exec -it proxy touch ISeeYou",
+                    "args":"exec -it proxy_Crosley_10.46.47.196 touch ISeeYou",
                     "delay":0, #delay for next action
                 }
             ]
