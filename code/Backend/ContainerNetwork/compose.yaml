@@ -1,45 +1,54 @@
 services:
-    proxy:
-        image: proxy
-        build:
-          context: ./
-          dockerfile: proxy.dockerfile
-        container_name: proxy
-        tty: true
-        cap_add:
-                - ALL
-        privileged: true
-        volumes:
-                - ./volumes:/volumes
-        networks:
-            net-10.9.0.0:
-                ipv4_address: 10.9.0.4
-        ports:
-          - "5002:22"
-
-    hostA:
-        image: debian
-        container_name: hostA-10.9.0.5
-        tty: true
-        cap_add:
-                - ALL
-        networks:
-            net-10.9.0.0:
-                ipv4_address: 10.9.0.5
-
-    hostB:
-        image: debian
-        container_name: hostB-10.9.0.6
-        tty: true
-        cap_add:
-                - ALL
-        networks:
-            net-10.9.0.0:
-                ipv4_address: 10.9.0.6
-                  
+  proxy_Crosley_10.46.47.196:
+    image: proxy
+    container_name: proxy_Crosley_10.46.47.196
+    networks:
+      uc_net:
+        ipv4_address: 10.46.47.196
+      proxy_net: null
+  proxy_Baldwin_10.54.24.230:
+    image: proxy
+    container_name: proxy_Baldwin_10.54.24.230
+    networks:
+      uc_net:
+        ipv4_address: 10.54.24.230
+      proxy_net: null
+    tty: true
+  debian_Baldwin_10.54.24.105:
+    image: debian
+    container_name: debian_Baldwin_10.54.24.105
+    networks:
+      uc_net:
+        ipv4_address: 10.54.24.105
+    tty: true
+  debian_Baldwin_10.54.24.221:
+    image: debian
+    container_name: debian_Baldwin_10.54.24.221
+    networks:
+      uc_net:
+        ipv4_address: 10.54.24.221
+    tty: true
+  debian_Baldwin_10.54.24.201:
+    image: debian
+    container_name: debian_Baldwin_10.54.24.201
+    networks:
+      uc_net:
+        ipv4_address: 10.54.24.201
+    tty: true
 networks:
-    net-10.9.0.0:
-        name: net-10.9.0.0
-        ipam:
-            config:
-                - subnet: 10.9.0.0/24
+  uc_net:
+    driver: bridge
+    name: uc_net
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.0.0.0/9
+        gateway: 10.76.0.1
+  proxy_net:
+    driver: bridge
+    name: proxy_net
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.128.0.0/9
+        gateway: 10.128.0.1
