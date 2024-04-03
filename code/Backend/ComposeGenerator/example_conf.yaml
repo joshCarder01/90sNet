@@ -4,6 +4,10 @@
 - image: proxy
   proxy: true
   location: Baldwin
+  other_options:
+    tty: true
 - image: debian
   location: Baldwin
   count: 3
+  other_options:
+    tty: true
