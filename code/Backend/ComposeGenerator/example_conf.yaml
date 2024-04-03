@@ -1,0 +1,9 @@
+- image: proxy
+  proxy: true
+  location: Crosley
+- image: proxy
+  proxy: true
+  location: Baldwin
+- image: debian
+  location: Baldwin
+  count: 3
