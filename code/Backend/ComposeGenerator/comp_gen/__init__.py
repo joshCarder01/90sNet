@@ -6,6 +6,7 @@ import logging
 from .reader import read_config
 from .network import NETWORK
 from .common import BasicConfig
+version=0.1
 
 def setup_dictionary(config_file):
     logging.info("Inputing configuration file")

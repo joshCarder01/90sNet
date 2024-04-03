@@ -11,7 +11,7 @@ def get_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
-def command_run():
+def main():
     args = get_args()
 
     logging.basicConfig(
@@ -20,10 +20,9 @@ def command_run():
         style='{',
     )
 
-
     print("Running Now")
     run(args.config_path, args.output_path)
 
 
 if __name__ == "__main__":
-    command_run()
+    main()
