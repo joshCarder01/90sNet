@@ -1,5 +1,5 @@
 # Proxy Setups
-- image: proxy
+- image: proxy:local
   name: entrypoint
   proxy: true
   locations:
@@ -10,7 +10,7 @@
   other_options:
     tty: true
 # Various Challenge Containers
-- image: simplepuzzle
+- image: simplepuzzle:local
   name: challengeset1
   count: 2
   locations:
@@ -20,7 +20,7 @@
     - OldChem
     - Reviechel
     - Zimmer
-- image: ssh_madness
+- image: ssh_madness:local
   name: challengeset2
   count: 2
   locations:

@@ -30,12 +30,15 @@ class DockerContainer:
         self.__other_options = args.get('other_options', None)
     
     @property
+    def pretty_image(self):
+        return self.image.split(":")[0]
+    @property
     def ip(self):
         return self.networks[BasicConfig.INTERNAL_NET][BasicConfig.IP_ADDR]
     
     @property
     def name(self):
-        return self.image if self._name is None else self._name
+        return self.pretty_image if self._name is None else self._name
 
     @property
     def service(self):
