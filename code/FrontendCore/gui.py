@@ -8,28 +8,6 @@ from FrontendCore import netclient
 
 import json
 
-'''
-class ResizingCanvas(Canvas):
-    
-    def __init__(self,parent,**kwargs):
-        Canvas.__init__(self,parent,**kwargs)
-        self.bind("<Configure>", self.on_resize)
-        self.height = self.winfo_reqheight()
-        self.width = self.winfo_reqwidth()
-
-    def on_resize(self,event):
-        # determine the ratio of old width/height to new width/height
-        wscale = float(event.width)/self.width
-        hscale = float(event.height)/self.height
-        self.width = event.width
-        self.height = event.height
-        # resize the canvas 
-        self.config(width=self.width, height=self.height)
-        # rescale all the objects tagged with the "all" tag
-        self.scale("all",0,0,wscale,hscale)
-'''
-
-
 class FrontendGUI:
 
     def __init__(self, net_client):
@@ -87,7 +65,6 @@ class FrontendGUI:
         self.console.grid(row=1, column=1, sticky='s', pady=0)
         self.root.bind('<Return>', lambda event:self.update_user_input())
         self.root.bind("<Button-1>", lambda event:self.console.mark_set("insert", END))
-        #self.root.bind("<Button-1>", lambda event:print("foo"))
         self.write_to_stream(self.console, "Admin> ")
 
         # canvas that displays map and nodes
@@ -149,17 +126,23 @@ class FrontendGUI:
 
         mainloop()
         self.run_thread = False
-    
+
+
+    # writes text to object    
     def write_to(self,tk_object, text):
         tk_object.config(state=NORMAL)
         tk_object.insert(END, text + "\n")
         tk_object.see("end")
         tk_object.config(state=DISABLED)
-    
+
+
+    # writes text to editable object    
     def write_to_stream(self, tk_object, text):
         tk_object.insert(END, text)
         tk_object.see("end")
 
+
+    # displays passed event on right side of screen
     def display_event(self, time_stamp, event):
         devent = event.copy()
         event_type = devent['type']
@@ -178,13 +161,16 @@ class FrontendGUI:
         self.event_stream_container.config(scrollregion= self.event_stream_container.bbox("all"))
         self.event_stream_container.yview_moveto(1)
 
+
+    # updates gui score
     def update_score_db(self, time_stamp, event):
-        #event_type = event['type']
         if event["type"] == 'score':
             username, val = event['description'].split(',')
             val = int(val)
             self.user_scores[username] += val
         
+
+    # creates new dot color during event
     def update_map(self, time_stamp, event):
         image, location, ip = event['machine_name'].split("_")
         if location not in self.node_data:
@@ -198,10 +184,14 @@ class FrontendGUI:
         y1 = data['location'][1] + r
         o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="#3333FF")
 
+
+    # changes color back to normal after elapse time
     def reset_map_updates(self):
         for name, data in self.node_data.items():
+            # if time still ticking, tick down
             if data['elapse'] > 0:
                 data['elapse'] -= 1
+            # draw new dot
             else:
                 data['elapse'] = 1
                 r = 7
@@ -211,7 +201,7 @@ class FrontendGUI:
                 y1 = data['location'][1] + r
                 o = self.map_canvas.create_oval(x0, y0, x1, y1, fill="#e13038")
 
-
+    # shows scores on left side of screen
     def display_scores(self):
         self.scoreboard.delete('all')
         num_players = len(self.user_scores.keys())
@@ -229,11 +219,7 @@ class FrontendGUI:
             new_event.grid(row=i//4, column=i%4, padx=5, pady=5, ipadx=5, ipady=5, sticky='n')
 
 
-        
-            
-        
-
-
+    # Main function loop that updates gui in own thread. updates on 5 seconds
     def update_gui(self):
         time_last_event = 0
         while self.run_thread:
@@ -253,53 +239,37 @@ class FrontendGUI:
             self.display_scores()
             time.sleep(5)
 
+
+    # gets user input when enter key hit
     def update_user_input(self):
+
+        # get and parse last users command
         stream = self.console.get("1.0", "end-1c")
         prompt = "Admin> "
         last_cmd = stream.rfind(prompt)
-
         cmd_str = stream[last_cmd+len(prompt):-1]
-
         cmd_dict = netclient.cmd_to_dict(cmd_str)
+
+        # if docker command, handle one way
         if cmd_dict['cmd'] == "docker":
             m_cmd_dict = cmd_dict
             m_cmd_dict['cmd'] = 'cli'
             request_id = json.loads(self.net_client.http_command(netclient.cmd_dict_to_str(m_cmd_dict)))
             while True:
+                # waiting for result from server
                 cmd_result = self.net_client.send_and_receive_http('command/results', request_id)
                 if str(request_id['id']) in cmd_result:
                     cmd_result = json.loads(cmd_result)
                     if cmd_result['id'] == request_id['id']:
                         break
+            self.write_to_stream(self.console, "{}\n{}".format(cmd_result['result'], prompt))      
+            #self.write_to_stream(self.console, "{}\n{}".format("", prompt))
 
-            self.write_to_stream(self.console, "{}\n{}".format(cmd_result['result'], prompt))
-            '''
-            request_id = json.loads(self.net_client.http_command(" ".join(['cli'] + cmd_str.split(" ")[1:])))
-            self.write_to_stream(self.console, "{}\n{}".format(request_id, prompt))
-            while True:
-                cmd_result = json.loads(self.net_client.send_and_receive_http('command/result', request_id))
-                print(cmd_result)
-                print(request_id)
-                if cmd_result['id'] == request_id['id']:
-                    break
-
-            self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
-            '''
-            self.write_to_stream(self.console, "{}\n{}".format("", prompt))
+        # if add user, also update internal dict
         elif cmd_dict['cmd'] == "addUser":
             response = self.net_client.post_and_receive_http("users/add", {"name":cmd_dict['args'][0], "username":cmd_dict['args'][1]})
-            self.write_to_stream(self.console, "{}\n{}".format(response, prompt))
             self.user_scores[cmd_dict['args'][1]] = 0
 
-        # uncomment this block once chad gets his db stuff working and returning single cmd info
-        '''
-        while True:
-            cmd_result = self.net_client.send_and_receive_http('command', request_id)
-            if cmd_result['id'] == request_id['id']:
-                break
-
-        self.write_to_stream(self.console, "{}\n{}".format(cmd_result, prompt))
-        '''
 
     
 

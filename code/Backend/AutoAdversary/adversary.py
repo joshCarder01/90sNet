@@ -3,15 +3,20 @@ import json
 import time
 import sys
 
+# set flask server IP
 FLASK_IP = "127.0.0.1:5000"
 if len(sys.argv) > 1:
     FLASK_IP = sys.argv[1]
 
+
+# gets a list of events from flask server since time argument
 def getEventsSince(unix_time_code):
+    # command formatting
     command = "getEventsSince"
     data = {
         "time":float(unix_time_code)
     }
+    # request
     new_events = json.loads(requests.get("http://{}/{}".format(FLASK_IP, command),
                         headers={'Content-Type':'application/json'},
                         json=data).text)
@@ -23,10 +28,12 @@ def getEventsSince(unix_time_code):
 
     return new_events, time_last_event
 
+
+# when given an automated adversary action, it will find the index of the next step to check for (None if timeout not reached, -1 if all steps completed)
 def get_last_setup_index(aaaction):
     setup_lst = aaaction['setup']
     t = time.time()
-
+    # for each setup item, check its time, if not None, see if its reached timeout
     for i, setup_item in enumerate(setup_lst):
         if setup_item['time'] != None:
             continue
@@ -38,10 +45,12 @@ def get_last_setup_index(aaaction):
             return i
     return -1
 
+
+# Dict that holds all events to check for
 event_checks = {
-    "proxy_Crosley_10.46.47.196":{
-        "AAAction1":{
-            "setup":[
+    "proxy_Crosley_10.46.47.196":{ #container name
+        "AAAction1":{ #action name (anything unique)
+            "setup":[ # setup steps (events to look for)
                 {
                     "type":"file_mod", #event type
                     "keyword":"blueberry", #keyword in description
@@ -55,7 +64,7 @@ event_checks = {
                     "timeout":1,
                 },
                 ],
-            "actions":[
+            "actions":[ # action steps (actions to take once all set up has been seen)
                 {
                     "cmd":"cli",
                     "args":"exec -it proxy_Crosley_10.46.47.196 touch ISeeYou",
@@ -70,21 +79,24 @@ event_checks = {
 
 last_time = time.time()
 events = None
+
+# While true, get list of events and evaluate each
 while True:
     events, last_time = getEventsSince(last_time)
-    #print(events)
-    #time.sleep(10)
     for event in events:
+        # go through each machine and action to see if applicable
         for machine_name, AAactions in event_checks.items():
             if event["machine_name"] != machine_name:
                 continue
             for AAAName, AAaction in AAactions.items():
                 i = get_last_setup_index(AAaction)
-                if i == None or i == -1:
+                if i == None or i == -1: #No settup steps either not ready or all already done
                     continue
-                step = AAaction['setup'][i]
+                step = AAaction['setup'][i] #otherwise use this step
+                
+                # if event is right and keyword found in event description, 
                 if step['type'] == event['type'] and step['keyword'] in event['description']:
-                    print("found")
+                    print("step event {} found for {}".format(i, AAAName))
                     event_checks[machine_name][AAAName]['setup'][i]['time'] = time.time()
                 if i == len(AAaction['setup']) - 1 and get_last_setup_index(AAaction) == -1:
                     print("take action")
