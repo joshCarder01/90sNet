@@ -1,0 +1,13 @@
+services:
+  test_simple_puzzle:
+    image: simplepuzzle
+    build: ./SimplePuzzle
+    ports:
+      - 300:300
+  test_ssh_madness:
+    image: ssh_madness
+    build: ./ssh_madness
+    ports:
+      - 20:20
+    
+    
