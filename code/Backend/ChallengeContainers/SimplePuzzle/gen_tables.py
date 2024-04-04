@@ -118,20 +118,30 @@ def main():
     # Generate Admin User
     c.execute('INSERT OR REPLACE INTO "users" (id, username, password, name, admin) VALUES (91, "admin", "admin_pass", "admin account", 1)')
     # Generate random users and insert into users table
-    random_users = generate_random_users(15)
-    insert_random_users(c, random_users)
+    while True:
+        try:
+            random_users = generate_random_users(15)
+            insert_random_users(c, random_users)
+            break
+        except sqlite3.IntegrityError as e:
+            if sqlite3.SQLITE_CONSTRAINT_UNIQUE == e.sqlite_errorcode:
+                continue
+            else:
+                print("Unknown SQLite Error")
+                raise
 
     # Generate random courses and insert into classes table
-    try:
-        random_courses = generate_random_courses(30)
-        insert_random_courses(c, random_courses)
-    except sqlite3.IntegrityError:
+    while True:
         try:
             random_courses = generate_random_courses(30)
             insert_random_courses(c, random_courses)
-        except sqlite3.IntegrityError:
-            random_courses = generate_random_courses(30)
-            insert_random_courses(c, random_courses)
+            break
+        except sqlite3.IntegrityError as e:
+            if sqlite3.SQLITE_CONSTRAINT_UNIQUE == e.sqlite_errorcode:
+                continue
+            else:
+                print("Unknown SQLite Error")
+                raise
 
     # Insert grades for each user
     c.execute("SELECT id FROM users WHERE admin != 1")
