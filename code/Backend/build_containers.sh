@@ -1,9 +1,7 @@
 #!/bin/bash
 
 # Build proxy
-pushd ContainerNetwork
-docker build -t proxy -f proxy.dockerfile .
-popd
+docker build -t proxy:local -f ./DockerFiles/proxy.dockerfile ./ContainerNetwork
 
 pushd ChallengeContainers
 docker compose build
