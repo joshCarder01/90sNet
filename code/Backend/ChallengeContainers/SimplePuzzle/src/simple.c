@@ -160,17 +160,13 @@ int get_inputs(char *username, char *password)
 
 int make_flag(char *flag_name)
 {
-    char path[150] = "/root/";
+    char path[] = "/score.txt";
 
-    // Prevent Directory Traversal?
-    if (strstr(flag_name, "/") != NULL || strstr(flag_name, "..") != NULL)
-    {
-        printf("Invalid characters in supplied flag\n");
-        return 1;
-    }
-    sprintf(path, "%s/%s", path, flag_name);
+    int fd = fopen(path, 'a');
 
-    int fd = open(path, O_CREAT | S_IRUSR | S_IWUSR);
+    fprintf(fd, "%s", flag_name);
+
+    fclose(fd);
     printf("Flag Added Successfully\n");
     return 0;
 }

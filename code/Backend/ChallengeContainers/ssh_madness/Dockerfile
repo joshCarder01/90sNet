@@ -11,7 +11,7 @@ RUN echo 'root:toor' | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 #RUN service ssh start
-RUN echo "Welcome" > /root/hello_world.txt
+RUN echo "Welcome" > /score.txt
 
 # COPY All Build Files
 COPY --chmod=0500 generate_ssh_users.sh run.sh /usr/local/share/
