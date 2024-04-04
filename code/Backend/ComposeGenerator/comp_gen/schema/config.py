@@ -40,3 +40,13 @@ class ConfigElementSchema(Schema):
         required=False,
         allow_none=True
     )
+
+    def help():
+        assemble = "Fields of the config:\n"
+        assemble += "\tNAME\t\tTYPE\tREQ\tDESCRIPTION\n"
+        assemble += "\timage\t\tstr\tT\tDocker Image to Run Container\n"
+        assemble += "\tcount\t\tint\tT\tNumber of containers to run\n"
+        assemble += "\tproxy\t\tbool\tF\tIs this a proxy to be exposed to the outer world\n"
+        assemble += "\tlocation\tstr\tT\tLocation to be used, one of the allowed locations\n"
+        assemble += "\tother_options\tdict\tF\tOther Docker Compose options to add at the end\n"
+        return assemble

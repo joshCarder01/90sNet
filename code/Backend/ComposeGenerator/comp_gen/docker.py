@@ -14,19 +14,27 @@ class DockerContainer:
     def __init__(self, **args) -> None:
         self.load(args)
 
-    def load(self, d: dict):
-        self.image = d['image']
-        self._name = d.get('name', None)
-        self.location = d['location']
+    def load(self, 
+                image: str,
+                count: int,
+                location: str,
+                proxy: bool = False,
+                name: str | None = None,
+                other_options: dict = {}
+                ):
+        self.image = image
+        self._name = name
+        self.count = count
+        self.location = location
         self.networks = {
                 BasicConfig.INTERNAL_NET:
                     {
                         BasicConfig.IP_ADDR: get_ip(self.location)
                     } 
             }
-        if d.get('proxy', False):
+        if proxy:
             self.networks[BasicConfig.PROXY_NET] = None
-        self.__other_options = d.get("other_options", {})
+        self.__other_options = other_options
     
     @property
     def ip(self):
@@ -34,18 +42,17 @@ class DockerContainer:
     
     @property
     def name(self):
-        if self._name is None:
-            return '{}_{}_{}'.format(self.image, self.location, self.ip)
-        return self._name
+        return self.image if self._name is None else self._name
 
+    @property
     def service(self):
-        return '{}_{}_{}'.format(self.image, self.location, self.ip)
+        return '{}_{}_{}'.format(self.name, self.location, self.count)
     
     def raw_dictionary(self):
 
         output = dict(
                 image= self.image,
-                container_name= self.name,
+                container_name= self.service,
                 networks= self.networks
             )
 
@@ -88,7 +95,8 @@ class ContainerSet:
                     image=__image,
                     location = __location,
                     other_options = __other_options,
-                    proxy = __proxy
+                    proxy = __proxy,
+                    count=i
                 )
             )
     
