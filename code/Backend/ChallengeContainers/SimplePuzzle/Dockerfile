@@ -33,7 +33,7 @@ WORKDIR /home/build
 RUN cmake .. && make
 
 FROM base AS runner
-ARG port=3333
+ARG port=300
 
 RUN apt-get update;  \
     apt-get install -y socat \
@@ -42,12 +42,13 @@ RUN apt-get update;  \
     && apt-get clean \
     && chmod -R 555 /root
 
+COPY --chmod=0555 run.sh /home
 COPY --from=db_builder --chmod=0444 /home/db_authenticator.db /home
 COPY --from=builder --chmod=0555 /home/build/SimplePuzzle /home
 
-EXPOSE ${port}
+ENV PORT=300
 
-CMD socat TCP-LISTEN:${port},tcpwrap=script,reuseaddr,fork EXEC:'/home/SimplePuzzle',stderr,pty,rawer
+CMD /home/run.sh
 #
 # Install common executables
 #

@@ -12,17 +12,25 @@
 int make_flag(char *flag_name);
 int get_inputs(char *username, char *password);
 
+#define DEBUG
+
+#ifdef DEBUG
+#define DEB(...) printf(__VA_ARGS__);
+#else
+#define DEB(...)
+#endif
+
 int main()
 {
     sqlite3 *db;
     char *err_message = 0;
-    char *sql_template = "SELECT uid, admin FROM users WHERE username = '%s' AND password = '%s'";
+    char *sql_template = "SELECT id, admin FROM 'users' WHERE username = '%s' AND password = '%s'";
     char *query;
     char username[INPUT_SIZE];
     char password[INPUT_SIZE];
 
     // Open SQLite database
-    int rc = sqlite3_open("example.db", &db);
+    int rc = sqlite3_open("db_authenticator.db", &db);
 
     if (rc)
     {
@@ -49,7 +57,7 @@ int main()
     // Assemble SQL statement
     asprintf(&query, sql_template, username, password);
 
-    // Check if the query returned a uid
+    // Check if the query returned a id
     int uid;
     sqlite3_stmt *stmt;
     rc = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
@@ -73,12 +81,14 @@ int main()
             printf("\nAdmin Account Detected\nEnter Flag to Win: ");
             char flag[60];
 
-            fgets(flag, 59, stdin);
+            gets(flag, 59, stdin);
+            flag[strcspn(flag, "\n")] = '\0';
             flag[59] = '\0';
+
+            DEB("Entered Flag: %s\n", flag)
 
             if (make_flag(flag))
             {
-                sqlite3_free(query);
                 goto main_error;
             }
         }
@@ -89,7 +99,6 @@ int main()
         goto reg_exit;
     }
     sqlite3_finalize(stmt);
-    sqlite3_free(query);
 
     // Rollback transaction
     rc = sqlite3_exec(db, "ROLLBACK", 0, 0, &err_message);
@@ -121,6 +130,7 @@ int get_inputs(char *username, char *password)
         INPUT_ERROR("username");
         return 1;
     }
+    username[strcspn(username, "\n")] = '\0';
     username[INPUT_SIZE - 1] = '\0';
 
     // Check if the SQL template contains "commit"
@@ -136,6 +146,7 @@ int get_inputs(char *username, char *password)
         INPUT_ERROR("password");
         return 1;
     }
+    password[strcspn(password, "\n")] = '\0';
     password[INPUT_SIZE - 1] = '\0';
 
     // Check if the SQL template contains "commit"
