@@ -25,16 +25,39 @@ to_check = {
             "/",
             ],
         'files':[
-            '/hello_world.txt',
+            '/score.txt',
             ],
         'cmds':[
             'last',
         ],
         'flags':{
-            'hello_world.txt':100
+            
         }
     },
-    "proxy":{
+    ["challengeset1_Baldwin_0",
+     "challengeset1_Baldwin_1",
+     "challengeset1_TUC_0",
+     "challengeset1_TUC_1",
+     "challengeset1_Manti_0",
+     "challengeset1_Manti_1",
+     "challengeset1_OldChem_0",
+     "challengeset1_OldChem_1",
+     "challengeset1_Reviechel_0",
+     "challengeset1_Reviechel_1",
+     "challengeset1_Zimmer_0",
+     "challengeset1_Zimmer_1",
+     "challengeset2_Baldwin_0",
+     "challengeset2_Baldwin_1",
+     "challengeset2_TUC_0",
+     "challengeset2_TUC_1",
+     "challengeset2_Manti_0",
+     "challengeset2_Manti_1",
+     "challengeset2_OldChem_0",
+     "challengeset2_OldChem_1",
+     "challengeset2_Reviechel_0",
+     "challengeset2_Reviechel_1",
+     "challengeset2_Zimmer_0",
+     "challengeset2_Zimmer_1",]:{
         'dirs':[
             ],
         'files':[
@@ -42,7 +65,7 @@ to_check = {
         'cmds':[
         ],
         'flags':{
-            'hello_world2.txt':100
+            '/score.txt':100
         }
     }
 }
