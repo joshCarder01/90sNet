@@ -12,29 +12,22 @@ class DockerContainer:
     location: str
 
     def __init__(self, **args) -> None:
-        self.load(args)
+        self.load(**args)
 
-    def load(self, 
-                image: str,
-                count: int,
-                location: str,
-                proxy: bool = False,
-                name: str | None = None,
-                other_options: dict = {}
-                ):
-        self.image = image
-        self._name = name
-        self.count = count
-        self.location = location
+    def load(self,**args):
+        self.image = args['image']
+        self._name = args.get('name', None)
+        self.count = args['count']
+        self.location = args['location']
         self.networks = {
                 BasicConfig.INTERNAL_NET:
                     {
                         BasicConfig.IP_ADDR: get_ip(self.location)
                     } 
             }
-        if proxy:
+        if args.get('proxy', False):
             self.networks[BasicConfig.PROXY_NET] = None
-        self.__other_options = other_options
+        self.__other_options = args.get('other_options', None)
     
     @property
     def ip(self):
@@ -86,19 +79,22 @@ class ContainerSet:
     def __setup_containers(self, **args):
         __count = args['count']
         __image = args['image']
-        __location = args['location']
+        __name = args.get('name', None)
+        __locations = args['locations']
         __other_options = args.get('other_options', None)
         __proxy = args.get('proxy', False)
-        for i in range(__count):
-            self._containers.append(
-                DockerContainer(
-                    image=__image,
-                    location = __location,
-                    other_options = __other_options,
-                    proxy = __proxy,
-                    count=i
+        for l in __locations:
+            for i in range(__count):
+                self._containers.append(
+                    DockerContainer(
+                        image=__image,
+                        name=__name,
+                        location = l,
+                        other_options = __other_options,
+                        proxy = __proxy,
+                        count=i
+                    )
                 )
-            )
     
     def __getitem__(self, index):
         return self.containers[index]
@@ -115,7 +111,7 @@ class ContainerSet:
     def raw_dictionary(self):
         output = {}
         for i in self._containers:
-            output[i.service()] = i.raw_dictionary()
+            output[i.service] = i.raw_dictionary()
         
         return output
     

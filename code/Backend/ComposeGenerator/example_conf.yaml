@@ -1,9 +1,8 @@
 - image: proxy
   proxy: true
-  location: Crosley
-- image: proxy
-  proxy: true
-  location: Baldwin
+  locations: 
+    - Crosley
+    - Baldwin
   other_options:
     tty: true
 - image: debian

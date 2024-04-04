@@ -20,6 +20,7 @@ class ConfigElement:
 
 class ConfigElementSchema(Schema):
     image = fields.Str(required=True)
+    name = fields.Str(load_default=None)
     count = fields.Integer(
                 allow_none=False,
                 load_default=1,
@@ -29,12 +30,15 @@ class ConfigElementSchema(Schema):
                 )
                 )
     proxy = fields.Bool(load_default=False)
-    location = fields.Str(
+    locations = fields.List(
+        fields.Str(
+            validate=validate.OneOf(
+                BasicConfig.locations(),
+                error="Invalid location in config"
+            ),
+            required=True
+        ),
         required=True,
-        validate=validate.OneOf(
-            BasicConfig.locations(),
-            error="Invalid location in config"
-        )
     )
     other_options = fields.Dict(
         required=False,
@@ -46,7 +50,7 @@ class ConfigElementSchema(Schema):
         assemble += "\tNAME\t\tTYPE\tREQ\tDESCRIPTION\n"
         assemble += "\timage\t\tstr\tT\tDocker Image to Run Container\n"
         assemble += "\tcount\t\tint\tT\tNumber of containers to run\n"
+        assemble += "\tlocations\tstr\tT\tLocations to be used, list of the allowed locations\n"
         assemble += "\tproxy\t\tbool\tF\tIs this a proxy to be exposed to the outer world\n"
-        assemble += "\tlocation\tstr\tT\tLocation to be used, one of the allowed locations\n"
         assemble += "\tother_options\tdict\tF\tOther Docker Compose options to add at the end\n"
         return assemble
