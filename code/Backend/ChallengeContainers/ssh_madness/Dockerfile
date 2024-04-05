@@ -8,10 +8,12 @@ RUN apt-get update \
 
 RUN mkdir /var/run/sshd
 RUN echo 'root:toor' | chpasswd
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    #sed -i 's/PrintMotd no/PrintMotd yes/' /etc/ssh/sshd_config
 #RUN service ssh start
-RUN echo "Welcome" > /score.txt
+RUN echo "Welcome" > /score.txt && \
+    echo "Great, now that your in. Add your username to /score.txt with '`echo ${username} >> score.txt`'" > /etc/motd
 
 # COPY All Build Files
 COPY --chmod=0500 generate_ssh_users.sh run.sh /usr/local/share/

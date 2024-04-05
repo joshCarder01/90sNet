@@ -9,15 +9,22 @@
 
 #define INPUT_ERROR(name) printf("There was an error in handling input for " name " please try again later!\n")
 
-int make_flag(char *flag_name);
+int make_flag(char *flag);
 int get_inputs(char *username, char *password);
 
-#define DEBUG
+// #define DEBUG
 
 #ifdef DEBUG
-#define DEB(...) printf(__VA_ARGS__);
+#define DEB(...)             \
+    do                       \
+    {                        \
+        printf(__VA_ARGS__); \
+    } while (0)
 #else
-#define DEB(...)
+#define DEB(...) \
+    do           \
+    {            \
+    } while (0)
 #endif
 
 int main()
@@ -85,7 +92,7 @@ int main()
             flag[strcspn(flag, "\n")] = '\0';
             flag[59] = '\0';
 
-            DEB("Entered Flag: %s\n", flag)
+            DEB("Entered Flag: %s\n", flag);
 
             if (make_flag(flag))
             {
@@ -98,6 +105,7 @@ int main()
         printf("No user found, try again later\n");
         goto reg_exit;
     }
+    DEB("Finalizing sqlite statement\n");
     sqlite3_finalize(stmt);
 
     // Rollback transaction
@@ -111,12 +119,14 @@ int main()
     }
 
 reg_exit:
+    DEB("Exiting Regularly\n");
     // Close database
     sqlite3_close(db);
 
     return 0;
 
 main_error:
+    DEB("Exiting with Error\n");
     // Error Occured
     sqlite3_close(db);
     return 1;
@@ -140,7 +150,7 @@ int get_inputs(char *username, char *password)
         return 1;
     }
 
-    printf("Please enter %s's username: ", username);
+    printf("Please enter %s's password: ", username);
     if (fgets(password, INPUT_SIZE - 1, stdin) == NULL)
     {
         INPUT_ERROR("password");
@@ -158,13 +168,14 @@ int get_inputs(char *username, char *password)
     return 0;
 }
 
-int make_flag(char *flag_name)
+int make_flag(char *flag)
 {
     char path[] = "/score.txt";
+    DEB("Attempting to open %s\n", path);
 
-    int fd = fopen(path, 'a');
+    FILE *fd = fopen(path, "a");
 
-    fprintf(fd, "%s", flag_name);
+    fprintf(fd, "%s\n", flag);
 
     fclose(fd);
     printf("Flag Added Successfully\n");
