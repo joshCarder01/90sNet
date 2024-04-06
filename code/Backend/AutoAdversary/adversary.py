@@ -121,6 +121,25 @@ challengeset2= [
     'challengeset2_Zimmer_1'
 ]
 
+for i in challengeset1:
+    event_checks[i] = {
+        "ScoreRestartAction":{
+            "setup": [
+                {
+                    "type": "score",
+                    "time": None,
+                    "timeout": 1
+                }
+            ],
+            "actions": [
+                {
+                    "cmd": "cli",
+                    "args": f"exec -t {i} bash -c echo -n '' > /score.txt"
+                }
+            ]
+        }
+    }
+
 # Setup ChallengeSet2
 for i in challengeset2:
     event_checks[i] = { #container name
@@ -144,7 +163,6 @@ for i in challengeset2:
             "setup": [
                 {
                     "type": "score",
-                    "keyword": None,
                     "time": None,
                     "timeout": 1
                 }
@@ -152,7 +170,7 @@ for i in challengeset2:
             "actions": [
                 {
                     "cmd": "cli",
-                    "args": f"restart {i}"
+                    "args": f"bash echo -n '' > /score.txt"
                 }
             ]
         }
@@ -178,7 +196,7 @@ while True:
                 step = AAaction['setup'][i] #otherwise use this step
                 
                 # if event is right and keyword found in event description, 
-                if step['type'] == event['type'] and step['keyword'] in event['description']:
+                if step['type'] == event['type'] and True if step.get('keyword', None) is None else (step['keyword'] in event['description']):
                     print("step event {} found for {}".format(i, AAAName))
                     event_checks[machine_name][AAAName]['setup'][i]['time'] = time.time()
                 if i == len(AAaction['setup']) - 1 and get_last_setup_index(AAaction) == -1:

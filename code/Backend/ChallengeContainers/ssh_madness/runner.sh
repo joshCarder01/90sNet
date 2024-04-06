@@ -11,7 +11,7 @@ TARGET=$(last | grep "still logged in" | awk "{printf \"/dev/%s,%s\n\", \$2, \$3
 if test -z "$TARGET"; then exit 0; fi
 for line in $TARGET; do
     IFS="," read -r dev ip <<< $line
-    bash -c "echo \"Detected Out of Place IP from $ip\" > $dev"
+    bash -c "echo -e \"\nDetected Unauthorized Access from IP: $ip\" > $dev"
 done
 
 
@@ -20,12 +20,14 @@ TARGET_SEC=$(last | grep "still logged in" | awk "{printf \"/dev/%s,%s\n\", \$2,
 if test -z "$TARGET_SEC"; then exit 0; fi
 while IFS="," read -r dev ip; do 
     if grep -q "$ip" <<< "$TARGET"; then
-        echo "UPDATING FIREWALL TO BLOCK $ip" > $dev
+        echo -e "\nUPDATING FIREWALL TO BLOCK $ip" > $dev
         proc=$(ps -aux | ps -aux | grep --color=never -E 'sshd: [[:alnum:]]+@' | grep --color=never "$(basename $dev)" | awk '{print $2}')
         DENY_TEXT="DenyUsers root@$ip"
 
         # Funny
-        echo "YOU ARE BLOCKED!" > $dev
+        # head -n 20 /dev/urandom > $dev
+        echo -e "\nYOU ARE BLOCKED!\n\n" > $dev
+        sleep 2
         kill $proc
 
         # Deny future login attempts

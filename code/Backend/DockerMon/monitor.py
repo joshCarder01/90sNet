@@ -25,7 +25,7 @@ to_check = {
             "/",
             ],
         'files':[
-            '/score.txt',
+            '/hello_world.txt',
             ],
         'cmds':[
             'last',
