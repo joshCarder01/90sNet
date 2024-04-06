@@ -3,7 +3,7 @@
 echo "Creating Background Process to Disable Competitor"
 
 # Start the daemon
-nohup bash <<< "$(dirname $0)/runner.sh" > /dev/null 2>&1 &
+nohup "$(dirname $0)/runner.sh" > /dev/null 2>&1 &
 
 sleep 10
 

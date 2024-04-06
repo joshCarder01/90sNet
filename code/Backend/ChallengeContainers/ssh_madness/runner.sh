@@ -1,3 +1,4 @@
+#!/bin/bash
 del_deny() {
     sleep 120
     sed -i "/DenyUsers root@$1/d" /etc/ssh/sshd_config
