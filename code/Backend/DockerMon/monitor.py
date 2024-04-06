@@ -25,7 +25,7 @@ to_check = {
             "/",
             ],
         'files':[
-            '/score.txt',
+            '/hello_world.txt',
             ],
         'cmds':[
             'last',
@@ -34,7 +34,43 @@ to_check = {
             
         }
     },
-    ["challengeset1_Baldwin_0",
+    # ["challengeset1_Baldwin_0",
+    #  "challengeset1_Baldwin_1",
+    #  "challengeset1_TUC_0",
+    #  "challengeset1_TUC_1",
+    #  "challengeset1_Manti_0",
+    #  "challengeset1_Manti_1",
+    #  "challengeset1_OldChem_0",
+    #  "challengeset1_OldChem_1",
+    #  "challengeset1_Reviechel_0",
+    #  "challengeset1_Reviechel_1",
+    #  "challengeset1_Zimmer_0",
+    #  "challengeset1_Zimmer_1",
+    #  "challengeset2_Baldwin_0",
+    #  "challengeset2_Baldwin_1",
+    #  "challengeset2_TUC_0",
+    #  "challengeset2_TUC_1",
+    #  "challengeset2_Manti_0",
+    #  "challengeset2_Manti_1",
+    #  "challengeset2_OldChem_0",
+    #  "challengeset2_OldChem_1",
+    #  "challengeset2_Reviechel_0",
+    #  "challengeset2_Reviechel_1",
+    #  "challengeset2_Zimmer_0",
+    #  "challengeset2_Zimmer_1",]:{
+    #     'dirs':[
+    #         ],
+    #     'files':[
+    #         ],
+    #     'cmds':[
+    #     ],
+    #     'flags':{
+    #         '/score.txt':100
+    #     }
+    # }
+}
+
+BIG_BOY = ["challengeset1_Baldwin_0",
      "challengeset1_Baldwin_1",
      "challengeset1_TUC_0",
      "challengeset1_TUC_1",
@@ -57,7 +93,9 @@ to_check = {
      "challengeset2_Reviechel_0",
      "challengeset2_Reviechel_1",
      "challengeset2_Zimmer_0",
-     "challengeset2_Zimmer_1",]:{
+     "challengeset2_Zimmer_1",]
+for i in BIG_BOY:
+    to_check[i] = {
         'dirs':[
             ],
         'files':[
@@ -68,7 +106,7 @@ to_check = {
             '/score.txt':100
         }
     }
-}
+
 
 while True:
     # for each entry in to_check

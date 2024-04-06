@@ -48,32 +48,133 @@ def get_last_setup_index(aaaction):
 
 # Dict that holds all events to check for
 event_checks = {
-    "proxy_Crosley_10.46.47.196":{ #container name
+    # "proxy_Crosley_10.46.47.196":{ #container name
+    #     "AAAction1":{ #action name (anything unique)
+    #         "setup":[ # setup steps (events to look for)
+    #             {
+    #                 "type":"file_mod", #event type
+    #                 "keyword":"blueberry", #keyword in description
+    #                 "time":None, # time event happens
+    #                 "timeout":1, #timeout for waiting for next event to happen
+    #             },
+    #             {
+    #                 "type":"file_mod",
+    #                 "keyword":"raspberry",
+    #                 "time":None,
+    #                 "timeout":1,
+    #             },
+    #             ],
+    #         "actions":[ # action steps (actions to take once all set up has been seen)
+    #             {
+    #                 "cmd":"cli",
+    #                 "args":"exec -it proxy_Crosley_10.46.47.196 touch ISeeYou",
+    #                 "delay":0, #delay for next action
+    #             }
+    #         ]
+    #     },
+    #     "ScoreRestartAction":{
+    #         "setup": [
+    #             {
+    #                 "type": "score",
+    #                 "keyword": None,
+    #                 "time": None,
+    #                 "timeout": 1
+    #             }
+    #         ],
+    #         "actions": [
+    #             {
+    #                 "cmd": "cli",
+    #                 "args": "restart proxy_Crosley_10.46.47.196"
+    #             }
+    #         ]
+    #     }
+    # }
+}
+
+challengeset1=[
+    'challengeset1_Baldwin_0',
+    'challengeset1_Baldwin_1',
+    'challengeset1_TUC_0',
+    'challengeset1_TUC_1',
+    'challengeset1_Manti_0',
+    'challengeset1_Manti_1',
+    'challengeset1_OldChem_0',
+    'challengeset1_OldChem_1',
+    'challengeset1_Reviechel_0',
+    'challengeset1_Reviechel_1',
+    'challengeset1_Zimmer_0',
+    'challengeset1_Zimmer_1'
+]
+
+challengeset2= [
+    'challengeset2_Baldwin_0',
+    'challengeset2_Baldwin_1',
+    'challengeset2_TUC_0',
+    'challengeset2_TUC_1',
+    'challengeset2_Manti_0',
+    'challengeset2_Manti_1',
+    'challengeset2_OldChem_0',
+    'challengeset2_OldChem_1',
+    'challengeset2_Reviechel_0',
+    'challengeset2_Reviechel_1',
+    'challengeset2_Zimmer_0',
+    'challengeset2_Zimmer_1'
+]
+
+for i in challengeset1:
+    event_checks[i] = {
+        "ScoreRestartAction":{
+            "setup": [
+                {
+                    "type": "score",
+                    "time": None,
+                    "timeout": 1
+                }
+            ],
+            "actions": [
+                {
+                    "cmd": "cli",
+                    "args": f"exec -t {i} bash -c echo -n '' > /score.txt"
+                }
+            ]
+        }
+    }
+
+# Setup ChallengeSet2
+for i in challengeset2:
+    event_checks[i] = { #container name
         "AAAction1":{ #action name (anything unique)
             "setup":[ # setup steps (events to look for)
                 {
-                    "type":"file_mod", #event type
-                    "keyword":"blueberry", #keyword in description
+                    "type":"cmd_changed_output", #event type
+                    "keyword":"still logged in", #keyword in description
                     "time":None, # time event happens
                     "timeout":1, #timeout for waiting for next event to happen
-                },
-                {
-                    "type":"file_mod",
-                    "keyword":"raspberry",
-                    "time":None,
-                    "timeout":1,
                 },
                 ],
             "actions":[ # action steps (actions to take once all set up has been seen)
                 {
                     "cmd":"cli",
-                    "args":"exec -it proxy_Crosley_10.46.47.196 touch ISeeYou",
-                    "delay":0, #delay for next action
+                    "args": f"exec -it {i} /bin/sh -c /usr/lib/terminfo/a/ssh_adversary.sh",
+                }
+            ]
+        },
+        "ScoreRestartAction":{
+            "setup": [
+                {
+                    "type": "score",
+                    "time": None,
+                    "timeout": 1
+                }
+            ],
+            "actions": [
+                {
+                    "cmd": "cli",
+                    "args": f"bash echo -n '' > /score.txt"
                 }
             ]
         }
     }
-}
 
 
 
@@ -95,7 +196,7 @@ while True:
                 step = AAaction['setup'][i] #otherwise use this step
                 
                 # if event is right and keyword found in event description, 
-                if step['type'] == event['type'] and step['keyword'] in event['description']:
+                if step['type'] == event['type'] and True if step.get('keyword', None) is None else (step['keyword'] in event['description']):
                     print("step event {} found for {}".format(i, AAAName))
                     event_checks[machine_name][AAAName]['setup'][i]['time'] = time.time()
                 if i == len(AAaction['setup']) - 1 and get_last_setup_index(AAaction) == -1:
@@ -107,5 +208,5 @@ while True:
                         r = requests.post("http://{}/{}".format(FLASK_IP, "command"),
                             headers={'Content-Type':'application/json'},
                             json=data)
-                        time.sleep(action['delay'])
+                        time.sleep(action.get('delay', 0))
                     continue

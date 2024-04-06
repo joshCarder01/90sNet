@@ -40,7 +40,8 @@ RUN apt-get update;  \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean \
-    && chmod -R 555 /root
+    && chmod -R 555 /root \
+    && touch /score.txt
 
 COPY --chmod=0555 run.sh /home
 COPY --from=db_builder --chmod=0444 /home/db_authenticator.db /home

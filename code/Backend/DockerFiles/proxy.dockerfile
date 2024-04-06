@@ -5,6 +5,7 @@ RUN apt-get update -y \
         openssh-server \
         nmap \
         iproute2 \
+        ncat \
     && apt-get clean
 RUN mkdir /var/run/sshd
 RUN echo 'root:90sNetProxyPass' | chpasswd
