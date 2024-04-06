@@ -1,0 +1,45 @@
+# Proxy Setups
+- image: proxy:local
+  name: entrypoint
+  proxy: true
+  locations:
+    - Baldwin
+    - Crosley
+    - TUC
+    - Manti
+  other_options:
+    tty: true
+# Various Challenge Containers
+- image: simplepuzzle:local
+  name: challengeset1
+  count: 2
+  locations:
+    - Baldwin
+    - TUC
+    - Manti
+    - OldChem
+    - Reviechel
+    - Zimmer
+- image: ssh_madness:local
+  name: challengeset2
+  count: 2
+  locations:
+    - Baldwin
+    - TUC
+    - Manti
+    - OldChem
+    - Reviechel
+    - Zimmer
+# Just Generic Containers
+- image: debian:bookworm
+  name: generic
+  locations:
+    - Baldwin
+    - TUC
+    - Manti
+    - OldChem
+    - Reviechel
+    - Zimmer
+  count: 5
+  other_options:
+    tty: true

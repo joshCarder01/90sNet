@@ -1,0 +1,17 @@
+
+services:
+
+  flask_app:
+    image: flask_app:local
+    build:
+      context: ./
+      dockerfile: DockerFiles/flask_app.dockerfile
+    environment:
+      - CONFIG_TYPE=config.ProductionConfig
+      #- CONFIG_TYPE=config.DevelopmentConfig
+    volumes:
+      - type: bind
+        source: ./Flask_App/db
+        target: /app/db
+    ports:
+      - "5000:5000"
