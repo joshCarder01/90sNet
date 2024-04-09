@@ -68,7 +68,7 @@ class BasicConfig:
 
 
 def __rand_octet():
-    return random.randint(2, 255)
+    return random.randint(2, 60)
 
 def __rand_Max():
     return random.randint(20,50)

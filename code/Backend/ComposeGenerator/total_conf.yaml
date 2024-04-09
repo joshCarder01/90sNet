@@ -12,7 +12,7 @@
 # Various Challenge Containers
 - image: simplepuzzle:local
   name: challengeset1
-  count: 2
+  count: 5
   locations:
     - Baldwin
     - TUC
@@ -22,7 +22,7 @@
     - Zimmer
 - image: ssh_madness:local
   name: challengeset2
-  count: 2
+  count: 5
   locations:
     - Baldwin
     - TUC

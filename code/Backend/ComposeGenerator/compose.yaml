@@ -4,394 +4,604 @@ services:
     container_name: entrypoint_Baldwin_0
     networks:
       uc_net:
-        ipv4_address: 10.54.115.227
+        ipv4_address: 10.54.32.59
       proxy_net: null
-    ports:
-      - 6000:22/tcp
     tty: true
   entrypoint_Crosley_0:
     image: proxy:local
     container_name: entrypoint_Crosley_0
     networks:
       uc_net:
-        ipv4_address: 10.46.225.39
+        ipv4_address: 10.46.59.31
       proxy_net: null
     ports:
-      - 6001:22/tcp
+      - 6000:22/tcp
     tty: true
   entrypoint_TUC_0:
     image: proxy:local
     container_name: entrypoint_TUC_0
     networks:
       uc_net:
-        ipv4_address: 10.61.159.86
+        ipv4_address: 10.61.32.9
       proxy_net: null
-    ports:
-      - 6002:22/tcp
     tty: true
   entrypoint_Manti_0:
     image: proxy:local
     container_name: entrypoint_Manti_0
     networks:
       uc_net:
-        ipv4_address: 10.84.200.130
+        ipv4_address: 10.84.10.3
       proxy_net: null
-    ports:
-      - 6003:22/tcp
     tty: true
   challengeset1_Baldwin_0:
     image: simplepuzzle:local
     container_name: challengeset1_Baldwin_0
     networks:
       uc_net:
-        ipv4_address: 10.54.115.223
+        ipv4_address: 10.54.32.24
   challengeset1_Baldwin_1:
     image: simplepuzzle:local
     container_name: challengeset1_Baldwin_1
     networks:
       uc_net:
-        ipv4_address: 10.54.115.46
+        ipv4_address: 10.54.32.12
+  challengeset1_Baldwin_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_Baldwin_2
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.14
+  challengeset1_Baldwin_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_Baldwin_3
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.15
+  challengeset1_Baldwin_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_Baldwin_4
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.7
   challengeset1_TUC_0:
     image: simplepuzzle:local
     container_name: challengeset1_TUC_0
     networks:
       uc_net:
-        ipv4_address: 10.61.159.73
+        ipv4_address: 10.61.32.20
   challengeset1_TUC_1:
     image: simplepuzzle:local
     container_name: challengeset1_TUC_1
     networks:
       uc_net:
-        ipv4_address: 10.61.159.13
+        ipv4_address: 10.61.32.14
+  challengeset1_TUC_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_TUC_2
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.31
+  challengeset1_TUC_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_TUC_3
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.40
+  challengeset1_TUC_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_TUC_4
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.49
   challengeset1_Manti_0:
     image: simplepuzzle:local
     container_name: challengeset1_Manti_0
     networks:
       uc_net:
-        ipv4_address: 10.84.200.218
+        ipv4_address: 10.84.10.36
   challengeset1_Manti_1:
     image: simplepuzzle:local
     container_name: challengeset1_Manti_1
     networks:
       uc_net:
-        ipv4_address: 10.84.200.2
+        ipv4_address: 10.84.10.33
+  challengeset1_Manti_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_Manti_2
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.22
+  challengeset1_Manti_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_Manti_3
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.42
+  challengeset1_Manti_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_Manti_4
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.44
   challengeset1_OldChem_0:
     image: simplepuzzle:local
     container_name: challengeset1_OldChem_0
     networks:
       uc_net:
-        ipv4_address: 10.109.143.116
+        ipv4_address: 10.109.50.50
   challengeset1_OldChem_1:
     image: simplepuzzle:local
     container_name: challengeset1_OldChem_1
     networks:
       uc_net:
-        ipv4_address: 10.109.143.78
+        ipv4_address: 10.109.50.19
+  challengeset1_OldChem_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_OldChem_2
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.52
+  challengeset1_OldChem_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_OldChem_3
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.33
+  challengeset1_OldChem_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_OldChem_4
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.2
   challengeset1_Reviechel_0:
     image: simplepuzzle:local
     container_name: challengeset1_Reviechel_0
     networks:
       uc_net:
-        ipv4_address: 10.22.81.154
+        ipv4_address: 10.22.30.27
   challengeset1_Reviechel_1:
     image: simplepuzzle:local
     container_name: challengeset1_Reviechel_1
     networks:
       uc_net:
-        ipv4_address: 10.22.81.225
+        ipv4_address: 10.22.30.53
+  challengeset1_Reviechel_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_Reviechel_2
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.13
+  challengeset1_Reviechel_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_Reviechel_3
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.11
+  challengeset1_Reviechel_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_Reviechel_4
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.55
   challengeset1_Zimmer_0:
     image: simplepuzzle:local
     container_name: challengeset1_Zimmer_0
     networks:
       uc_net:
-        ipv4_address: 10.118.244.228
+        ipv4_address: 10.118.7.58
   challengeset1_Zimmer_1:
     image: simplepuzzle:local
     container_name: challengeset1_Zimmer_1
     networks:
       uc_net:
-        ipv4_address: 10.118.244.51
+        ipv4_address: 10.118.7.19
+  challengeset1_Zimmer_2:
+    image: simplepuzzle:local
+    container_name: challengeset1_Zimmer_2
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.14
+  challengeset1_Zimmer_3:
+    image: simplepuzzle:local
+    container_name: challengeset1_Zimmer_3
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.52
+  challengeset1_Zimmer_4:
+    image: simplepuzzle:local
+    container_name: challengeset1_Zimmer_4
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.12
   challengeset2_Baldwin_0:
     image: ssh_madness:local
     container_name: challengeset2_Baldwin_0
     networks:
       uc_net:
-        ipv4_address: 10.54.115.149
+        ipv4_address: 10.54.32.18
   challengeset2_Baldwin_1:
     image: ssh_madness:local
     container_name: challengeset2_Baldwin_1
     networks:
       uc_net:
-        ipv4_address: 10.54.115.217
+        ipv4_address: 10.54.32.10
+  challengeset2_Baldwin_2:
+    image: ssh_madness:local
+    container_name: challengeset2_Baldwin_2
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.6
+  challengeset2_Baldwin_3:
+    image: ssh_madness:local
+    container_name: challengeset2_Baldwin_3
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.27
+  challengeset2_Baldwin_4:
+    image: ssh_madness:local
+    container_name: challengeset2_Baldwin_4
+    networks:
+      uc_net:
+        ipv4_address: 10.54.32.35
   challengeset2_TUC_0:
     image: ssh_madness:local
     container_name: challengeset2_TUC_0
     networks:
       uc_net:
-        ipv4_address: 10.61.159.165
+        ipv4_address: 10.61.32.33
   challengeset2_TUC_1:
     image: ssh_madness:local
     container_name: challengeset2_TUC_1
     networks:
       uc_net:
-        ipv4_address: 10.61.159.142
+        ipv4_address: 10.61.32.38
+  challengeset2_TUC_2:
+    image: ssh_madness:local
+    container_name: challengeset2_TUC_2
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.43
+  challengeset2_TUC_3:
+    image: ssh_madness:local
+    container_name: challengeset2_TUC_3
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.60
+  challengeset2_TUC_4:
+    image: ssh_madness:local
+    container_name: challengeset2_TUC_4
+    networks:
+      uc_net:
+        ipv4_address: 10.61.32.27
   challengeset2_Manti_0:
     image: ssh_madness:local
     container_name: challengeset2_Manti_0
     networks:
       uc_net:
-        ipv4_address: 10.84.200.131
+        ipv4_address: 10.84.10.13
   challengeset2_Manti_1:
     image: ssh_madness:local
     container_name: challengeset2_Manti_1
     networks:
       uc_net:
-        ipv4_address: 10.84.200.254
+        ipv4_address: 10.84.10.19
+  challengeset2_Manti_2:
+    image: ssh_madness:local
+    container_name: challengeset2_Manti_2
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.4
+  challengeset2_Manti_3:
+    image: ssh_madness:local
+    container_name: challengeset2_Manti_3
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.54
+  challengeset2_Manti_4:
+    image: ssh_madness:local
+    container_name: challengeset2_Manti_4
+    networks:
+      uc_net:
+        ipv4_address: 10.84.10.24
   challengeset2_OldChem_0:
     image: ssh_madness:local
     container_name: challengeset2_OldChem_0
     networks:
       uc_net:
-        ipv4_address: 10.109.143.149
+        ipv4_address: 10.109.50.57
   challengeset2_OldChem_1:
     image: ssh_madness:local
     container_name: challengeset2_OldChem_1
     networks:
       uc_net:
-        ipv4_address: 10.109.143.74
+        ipv4_address: 10.109.50.34
+  challengeset2_OldChem_2:
+    image: ssh_madness:local
+    container_name: challengeset2_OldChem_2
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.6
+  challengeset2_OldChem_3:
+    image: ssh_madness:local
+    container_name: challengeset2_OldChem_3
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.49
+  challengeset2_OldChem_4:
+    image: ssh_madness:local
+    container_name: challengeset2_OldChem_4
+    networks:
+      uc_net:
+        ipv4_address: 10.109.50.51
   challengeset2_Reviechel_0:
     image: ssh_madness:local
     container_name: challengeset2_Reviechel_0
     networks:
       uc_net:
-        ipv4_address: 10.22.81.22
+        ipv4_address: 10.22.30.36
   challengeset2_Reviechel_1:
     image: ssh_madness:local
     container_name: challengeset2_Reviechel_1
     networks:
       uc_net:
-        ipv4_address: 10.22.81.125
+        ipv4_address: 10.22.30.14
+  challengeset2_Reviechel_2:
+    image: ssh_madness:local
+    container_name: challengeset2_Reviechel_2
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.50
+  challengeset2_Reviechel_3:
+    image: ssh_madness:local
+    container_name: challengeset2_Reviechel_3
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.20
+  challengeset2_Reviechel_4:
+    image: ssh_madness:local
+    container_name: challengeset2_Reviechel_4
+    networks:
+      uc_net:
+        ipv4_address: 10.22.30.22
   challengeset2_Zimmer_0:
     image: ssh_madness:local
     container_name: challengeset2_Zimmer_0
     networks:
       uc_net:
-        ipv4_address: 10.118.244.8
+        ipv4_address: 10.118.7.37
   challengeset2_Zimmer_1:
     image: ssh_madness:local
     container_name: challengeset2_Zimmer_1
     networks:
       uc_net:
-        ipv4_address: 10.118.244.162
+        ipv4_address: 10.118.7.18
+  challengeset2_Zimmer_2:
+    image: ssh_madness:local
+    container_name: challengeset2_Zimmer_2
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.32
+  challengeset2_Zimmer_3:
+    image: ssh_madness:local
+    container_name: challengeset2_Zimmer_3
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.46
+  challengeset2_Zimmer_4:
+    image: ssh_madness:local
+    container_name: challengeset2_Zimmer_4
+    networks:
+      uc_net:
+        ipv4_address: 10.118.7.35
   generic_Baldwin_0:
     image: debian:bookworm
     container_name: generic_Baldwin_0
     networks:
       uc_net:
-        ipv4_address: 10.54.115.185
+        ipv4_address: 10.54.32.13
     tty: true
   generic_Baldwin_1:
     image: debian:bookworm
     container_name: generic_Baldwin_1
     networks:
       uc_net:
-        ipv4_address: 10.54.115.173
+        ipv4_address: 10.54.32.25
     tty: true
   generic_Baldwin_2:
     image: debian:bookworm
     container_name: generic_Baldwin_2
     networks:
       uc_net:
-        ipv4_address: 10.54.115.101
+        ipv4_address: 10.54.32.3
     tty: true
   generic_Baldwin_3:
     image: debian:bookworm
     container_name: generic_Baldwin_3
     networks:
       uc_net:
-        ipv4_address: 10.54.115.241
+        ipv4_address: 10.54.32.53
     tty: true
   generic_Baldwin_4:
     image: debian:bookworm
     container_name: generic_Baldwin_4
     networks:
       uc_net:
-        ipv4_address: 10.54.115.132
+        ipv4_address: 10.54.32.17
     tty: true
   generic_TUC_0:
     image: debian:bookworm
     container_name: generic_TUC_0
     networks:
       uc_net:
-        ipv4_address: 10.61.159.184
+        ipv4_address: 10.61.32.57
     tty: true
   generic_TUC_1:
     image: debian:bookworm
     container_name: generic_TUC_1
     networks:
       uc_net:
-        ipv4_address: 10.61.159.150
+        ipv4_address: 10.61.32.12
     tty: true
   generic_TUC_2:
     image: debian:bookworm
     container_name: generic_TUC_2
     networks:
       uc_net:
-        ipv4_address: 10.61.159.41
+        ipv4_address: 10.61.32.25
     tty: true
   generic_TUC_3:
     image: debian:bookworm
     container_name: generic_TUC_3
     networks:
       uc_net:
-        ipv4_address: 10.61.159.126
+        ipv4_address: 10.61.32.34
     tty: true
   generic_TUC_4:
     image: debian:bookworm
     container_name: generic_TUC_4
     networks:
       uc_net:
-        ipv4_address: 10.61.159.117
+        ipv4_address: 10.61.32.45
     tty: true
   generic_Manti_0:
     image: debian:bookworm
     container_name: generic_Manti_0
     networks:
       uc_net:
-        ipv4_address: 10.84.200.188
+        ipv4_address: 10.84.10.49
     tty: true
   generic_Manti_1:
     image: debian:bookworm
     container_name: generic_Manti_1
     networks:
       uc_net:
-        ipv4_address: 10.84.200.149
+        ipv4_address: 10.84.10.55
     tty: true
   generic_Manti_2:
     image: debian:bookworm
     container_name: generic_Manti_2
     networks:
       uc_net:
-        ipv4_address: 10.84.200.190
+        ipv4_address: 10.84.10.45
     tty: true
   generic_Manti_3:
     image: debian:bookworm
     container_name: generic_Manti_3
     networks:
       uc_net:
-        ipv4_address: 10.84.200.251
+        ipv4_address: 10.84.10.9
     tty: true
   generic_Manti_4:
     image: debian:bookworm
     container_name: generic_Manti_4
     networks:
       uc_net:
-        ipv4_address: 10.84.200.219
+        ipv4_address: 10.84.10.20
     tty: true
   generic_OldChem_0:
     image: debian:bookworm
     container_name: generic_OldChem_0
     networks:
       uc_net:
-        ipv4_address: 10.109.143.110
+        ipv4_address: 10.109.50.5
     tty: true
   generic_OldChem_1:
     image: debian:bookworm
     container_name: generic_OldChem_1
     networks:
       uc_net:
-        ipv4_address: 10.109.143.211
+        ipv4_address: 10.109.50.45
     tty: true
   generic_OldChem_2:
     image: debian:bookworm
     container_name: generic_OldChem_2
     networks:
       uc_net:
-        ipv4_address: 10.109.143.175
+        ipv4_address: 10.109.50.22
     tty: true
   generic_OldChem_3:
     image: debian:bookworm
     container_name: generic_OldChem_3
     networks:
       uc_net:
-        ipv4_address: 10.109.143.192
+        ipv4_address: 10.109.50.36
     tty: true
   generic_OldChem_4:
     image: debian:bookworm
     container_name: generic_OldChem_4
     networks:
       uc_net:
-        ipv4_address: 10.109.143.137
+        ipv4_address: 10.109.50.60
     tty: true
   generic_Reviechel_0:
     image: debian:bookworm
     container_name: generic_Reviechel_0
     networks:
       uc_net:
-        ipv4_address: 10.22.81.50
+        ipv4_address: 10.22.30.48
     tty: true
   generic_Reviechel_1:
     image: debian:bookworm
     container_name: generic_Reviechel_1
     networks:
       uc_net:
-        ipv4_address: 10.22.81.25
+        ipv4_address: 10.22.30.45
     tty: true
   generic_Reviechel_2:
     image: debian:bookworm
     container_name: generic_Reviechel_2
     networks:
       uc_net:
-        ipv4_address: 10.22.81.241
+        ipv4_address: 10.22.30.32
     tty: true
   generic_Reviechel_3:
     image: debian:bookworm
     container_name: generic_Reviechel_3
     networks:
       uc_net:
-        ipv4_address: 10.22.81.121
+        ipv4_address: 10.22.30.7
     tty: true
   generic_Reviechel_4:
     image: debian:bookworm
     container_name: generic_Reviechel_4
     networks:
       uc_net:
-        ipv4_address: 10.22.81.67
+        ipv4_address: 10.22.30.38
     tty: true
   generic_Zimmer_0:
     image: debian:bookworm
     container_name: generic_Zimmer_0
     networks:
       uc_net:
-        ipv4_address: 10.118.244.194
+        ipv4_address: 10.118.7.10
     tty: true
   generic_Zimmer_1:
     image: debian:bookworm
     container_name: generic_Zimmer_1
     networks:
       uc_net:
-        ipv4_address: 10.118.244.224
+        ipv4_address: 10.118.7.31
     tty: true
   generic_Zimmer_2:
     image: debian:bookworm
     container_name: generic_Zimmer_2
     networks:
       uc_net:
-        ipv4_address: 10.118.244.106
+        ipv4_address: 10.118.7.9
     tty: true
   generic_Zimmer_3:
     image: debian:bookworm
     container_name: generic_Zimmer_3
     networks:
       uc_net:
-        ipv4_address: 10.118.244.91
+        ipv4_address: 10.118.7.8
     tty: true
   generic_Zimmer_4:
     image: debian:bookworm
     container_name: generic_Zimmer_4
     networks:
       uc_net:
-        ipv4_address: 10.118.244.94
+        ipv4_address: 10.118.7.16
     tty: true
 networks:
   uc_net:
@@ -408,5 +618,5 @@ networks:
     ipam:
       driver: default
       config:
-      - subnet: 192.168.3.0/24
-        gateway: 192.168.3.1
+      - subnet: 10.128.0.0/9
+        gateway: 10.128.0.1

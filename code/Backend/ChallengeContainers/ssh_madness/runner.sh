@@ -15,7 +15,7 @@ for line in $TARGET; do
 done
 
 
-sleep 20
+sleep 50
 TARGET_SEC=$(last | grep "still logged in" | awk "{printf \"/dev/%s,%s\n\", \$2, \$3}")
 if test -z "$TARGET_SEC"; then exit 0; fi
 while IFS="," read -r dev ip; do 

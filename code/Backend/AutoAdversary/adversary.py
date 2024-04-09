@@ -170,7 +170,7 @@ for i in challengeset2:
             "actions": [
                 {
                     "cmd": "cli",
-                    "args": f"bash echo -n '' > /score.txt"
+                    "args": f"exec -t {i} bash echo -n '' > /score.txt"
                 }
             ]
         }
