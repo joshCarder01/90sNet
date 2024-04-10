@@ -20,7 +20,7 @@ TARGET_SEC=$(last | grep "still logged in" | awk "{printf \"/dev/%s,%s\n\", \$2,
 if test -z "$TARGET_SEC"; then exit 0; fi
 while IFS="," read -r dev ip; do 
     if grep -q "$ip" <<< "$TARGET"; then
-        echo -e "\nUPDATING FIREWALL TO BLOCK $ip" > $dev
+        echo -e "\nUPDATING SHH_CONFIG TO BLOCK $ip" > $dev
         proc=$(ps -aux | ps -aux | grep --color=never -E 'sshd: [[:alnum:]]+@' | grep --color=never "$(basename $dev)" | awk '{print $2}')
         DENY_TEXT="DenyUsers root@$ip"
 

@@ -7,6 +7,8 @@ services:
         ipv4_address: 10.54.32.59
       proxy_net: null
     tty: true
+    ports:
+      - 7000:22/tcp
   entrypoint_Crosley_0:
     image: proxy:local
     container_name: entrypoint_Crosley_0
@@ -24,6 +26,8 @@ services:
       uc_net:
         ipv4_address: 10.61.32.9
       proxy_net: null
+    ports:
+      - 7001:22/tcp
     tty: true
   entrypoint_Manti_0:
     image: proxy:local
@@ -33,6 +37,8 @@ services:
         ipv4_address: 10.84.10.3
       proxy_net: null
     tty: true
+    ports:
+      - 7002:22/tcp
   challengeset1_Baldwin_0:
     image: simplepuzzle:local
     container_name: challengeset1_Baldwin_0
