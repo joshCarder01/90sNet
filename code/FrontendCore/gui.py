@@ -167,7 +167,10 @@ class FrontendGUI:
         if event["type"] == 'score':
             username, val = event['description'].split(',')
             val = int(val)
-            self.user_scores[username] += val
+            if username in self.user_scores:
+                self.user_scores[username] += val
+            else:
+                self.user_scores[username] = val
         
 
     # creates new dot color during event
@@ -237,7 +240,7 @@ class FrontendGUI:
                 #update map
                 self.update_map(time_stamp, event)
             self.display_scores()
-            time.sleep(5)
+            time.sleep(2)
 
 
     # gets user input when enter key hit
@@ -262,13 +265,13 @@ class FrontendGUI:
                     cmd_result = json.loads(cmd_result)
                     if cmd_result['id'] == request_id['id']:
                         break
-            #self.write_to_stream(self.console, "{}\n{}".format(cmd_result['result'], prompt))      
-            self.write_to_stream(self.console, "{}\n{}".format("", prompt))
+            self.write_to_stream(self.console, "{}\n{}".format(cmd_result['result'], prompt))      
+            #self.write_to_stream(self.console, "{}\n{}".format("", prompt))
 
         # if add user, also update internal dict
         elif cmd_dict['cmd'] == "addUser":
-            response = self.net_client.post_and_receive_http("users/add", {"name":cmd_dict['args'][0], "username":cmd_dict['args'][1]})
-            self.user_scores[cmd_dict['args'][1]] = 0
+            response = self.net_client.post_and_receive_http("users/add", {"name":cmd_dict['args'][0], "username":cmd_dict['args'][0]})
+            self.user_scores[cmd_dict['args'][0]] = 0
             self.write_to_stream(self.console, "{}\n{}".format("", prompt))
 
 
