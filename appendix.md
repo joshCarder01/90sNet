@@ -274,6 +274,172 @@ Recap: All parties completed 3 hrs of independent work. (47hrs since project sta
 * finalized outline for work separation for final assignment
 * continued work on prototypes
 
+--------------------------------------------------------------------------------------
+					NEW SEMESTER
+--------------------------------------------------------------------------------------
+2024-01-15 (2hrs)
+Goals: Weekly assignment and project planning
+Recap: All parties completed 0 hrs of independent work. (49hrs since project start)
+* Develope test plan
+	* User connection
+	* User interaction
+	* Bad user
+	* Network separation
+	* Infrastructure boot
+	* Bad user in infrastructure
+	* Data read
+	* Event creation
+	* Frontend test
+	* Full system tests
+* Begin outlining logistical connection of prototypes
+
+2024-01-18 (2hrs)
+Goals: Combine protypes
+Recap: All parties completed 2 hrs of independent work. (53hrs since project start)
+* discuss what parts of each prototype we want to continue working with
+* Outline connection methodology -> network
+* Josh to start with new frontend
 
 
+--------------------------------------------------------------------------------------
+2024-01-22 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 6 hrs of independent work. (61hrs since project start)
+* Josh has new frontend prototype 
+	* tkinter 
+* New backend prototype using constant network connections (should we do this)
+* User docs
+	* Frontend good enough to write docs for
+	* Other docs are temp as we build things out
 
+2024-01-25 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 1 hrs of independent work. (64hrs since project start)
+* Centralized server where everything is communicating with http html json requests
+* More functions added to frontend
+
+--------------------------------------------------------------------------------------
+2024-02-05 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 4 hrs of independent work. (67hrs since project start)
+* Josh continues to work on the frontend
+	* Network map
+	* event view
+	* crash handles
+* Chad continues on docs
+
+
+2024-02-08 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 1 hrs of independent work. (70hrs since project start)
+* Josh continues on frontend
+	* score management
+	
+--------------------------------------------------------------------------------------
+2024-02-12 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 0 hrs of independent work. (72hrs since project start)
+* Slidedeck	
+	* outline responsbilities and start
+
+
+2024-02-15 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 4 hrs of independent work. (78hrs since project start)
+* Josh continues on frontend
+	* stop continued connection, move to single http requets
+* Chad continues work on backend
+* both work on slide deck
+	
+--------------------------------------------------------------------------------------
+2024-02-19 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 0 hrs of independent work. (80hrs since project start)
+* Josh continues on frontend
+* Chad continues on backend
+
+
+2024-02-22 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 4 hrs of independent work. (86hrs since project start)
+* Chad shows main central sever
+	* group testing with current infrastructure
+	* moddify things to fit
+
+--------------------------------------------------------------------------------------
+2024-02-26 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 8 hrs of independent work. (96hrs since project start)
+* Josh continues on frontend
+	* continued integration
+* Josh works on actual network
+* Chad continues on backend
+	* Move to docker
+* Outline what we need on expo poste
+
+
+2024-02-29 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 2 hrs of independent work. (100hrs since project start)
+* EXpo poster
+
+--------------------------------------------------------------------------------------
+2024-03-18 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 16 hrs of independent work. (118hrs since project start)
+* Josh Backend
+	* Network
+	* basic proxy
+	* Basic monitor
+	* easy container start
+	* basic docker manager
+	* wrote basic manual tests for all things
+* Chad backend
+	* fixing server bugs and mantaince
+
+
+2024-03-21 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 6 hrs of independent work. (126hrs since project start)
+* Assignment
+* Monitor pushes info to server
+* Chad backend central server continued improvements
+* new boot instructions
+* manager works 
+* command systems starting to work on the frontend
+
+--------------------------------------------------------------------------------------
+2024-03-25 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 6 hrs of independent work. (134hrs since project start)
+* frontend continued integration with backend
+* backend overhaul
+
+
+2024-03-28 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 6 hrs of independent work. (142hrs since project start)
+* New compose generator
+* backend fixes
+* big monitor refactor for better optimization
+
+
+--------------------------------------------------------------------------------------
+2024-04-01 (2hrs)
+Goals: Weekly assignment
+Recap: All parties completed 6 hrs of independent work. (150hrs since project start)
+* Auto adversary bones based on monitor
+* Lots of backend work
+* updated docs
+
+
+2024-04-04 (2hrs)
+Goals: Discuss how we are moving forward
+Recap: All parties completed 6 hrs of independent work. (158hrs since project start)
+* things wrapping up
+* new start scripts
+* AA finished
+* Frontend features complete
+* updated tests 
+* Chad adding  challenges
+* Remove unneeded things
