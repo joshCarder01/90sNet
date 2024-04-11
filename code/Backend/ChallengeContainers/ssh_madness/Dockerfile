@@ -2,14 +2,13 @@ from debian:bookworm
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-        openssh-server openssl \
-
+        openssh-server openssl \    
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
 
 RUN mkdir /var/run/sshd
-RUN echo 'root:bearcat1819' | chpasswd
+RUN echo 'root:bearcat' | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
     #sed -i 's/PrintMotd no/PrintMotd yes/' /etc/ssh/sshd_config

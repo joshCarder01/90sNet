@@ -70,33 +70,12 @@ to_check = {
     # }
 }
 
-BIG_BOY = ["challengeset1_Baldwin_0",
-     "challengeset1_Baldwin_1",
-     "challengeset1_TUC_0",
-     "challengeset1_TUC_1",
-     "challengeset1_Manti_0",
-     "challengeset1_Manti_1",
-     "challengeset1_OldChem_0",
-     "challengeset1_OldChem_1",
-     "challengeset1_Reviechel_0",
-     "challengeset1_Reviechel_1",
-     "challengeset1_Zimmer_0",
-     "challengeset1_Zimmer_1",
-     "challengeset2_Baldwin_0",
-     "challengeset2_Baldwin_1",
-     "challengeset2_TUC_0",
-     "challengeset2_TUC_1",
-     "challengeset2_Manti_0",
-     "challengeset2_Manti_1",
-     "challengeset2_OldChem_0",
-     "challengeset2_OldChem_1",
-     "challengeset2_Reviechel_0",
-     "challengeset2_Reviechel_1",
-     "challengeset2_Zimmer_0",
-     "challengeset2_Zimmer_1",]
+BIG_BOY = ['challengeset1_Baldwin_0', 'challengeset1_Baldwin_1', 'challengeset1_Baldwin_2', 'challengeset1_Baldwin_3', 'challengeset1_Baldwin_4', 'challengeset1_TUC_0', 'challengeset1_TUC_1', 'challengeset1_TUC_2', 'challengeset1_TUC_3', 'challengeset1_TUC_4', 'challengeset1_Manti_0', 'challengeset1_Manti_1', 'challengeset1_Manti_2', 'challengeset1_Manti_3', 'challengeset1_Manti_4', 'challengeset1_OldChem_0', 'challengeset1_OldChem_1', 'challengeset1_OldChem_2', 'challengeset1_OldChem_3', 'challengeset1_OldChem_4', 'challengeset1_Reviechel_0', 'challengeset1_Reviechel_1', 'challengeset1_Reviechel_2', 'challengeset1_Reviechel_3', 'challengeset1_Reviechel_4', 'challengeset1_Zimmer_0', 'challengeset1_Zimmer_1', 'challengeset1_Zimmer_2', 'challengeset1_Zimmer_3', 'challengeset1_Zimmer_4',
+     'challengeset2_Baldwin_0', 'challengeset2_Baldwin_1', 'challengeset2_Baldwin_2', 'challengeset2_Baldwin_3', 'challengeset2_Baldwin_4', 'challengeset2_TUC_0', 'challengeset2_TUC_1', 'challengeset2_TUC_2', 'challengeset2_TUC_3', 'challengeset2_TUC_4', 'challengeset2_Manti_0', 'challengeset2_Manti_1', 'challengeset2_Manti_2', 'challengeset2_Manti_3', 'challengeset2_Manti_4', 'challengeset2_OldChem_0', 'challengeset2_OldChem_1', 'challengeset2_OldChem_2', 'challengeset2_OldChem_3', 'challengeset2_OldChem_4', 'challengeset2_Reviechel_0', 'challengeset2_Reviechel_1', 'challengeset2_Reviechel_2', 'challengeset2_Reviechel_3', 'challengeset2_Reviechel_4', 'challengeset2_Zimmer_0', 'challengeset2_Zimmer_1', 'challengeset2_Zimmer_2', 'challengeset2_Zimmer_3', 'challengeset2_Zimmer_4']
 for i in BIG_BOY:
     to_check[i] = {
         'dirs':[
+            "/root",
             ],
         'files':[
             ],
