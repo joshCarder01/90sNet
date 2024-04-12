@@ -1,5 +1,5 @@
 # 90sNet
-A recreation of the University of Cincinnati network and some systems from the 1990s
+90s Net recreates the feel of network and systems from the University of Cincinnati West main campus in the 1990s, but in a completely virtual environment for use in live fire cyber exercises. User and Admins can interact with and manage systems appropriately, as if it were a true network. This should be an effective training ground for cyber exercises in a familiar environment for students.
 
 # Table of Contents
 * [Project Description](assignments/Project-Description.md)
