@@ -48,47 +48,47 @@ def get_last_setup_index(aaaction):
 
 # Dict that holds all events to check for
 event_checks = {
-    # "proxy_Crosley_10.46.47.196":{ #container name
-    #     "AAAction1":{ #action name (anything unique)
-    #         "setup":[ # setup steps (events to look for)
-    #             {
-    #                 "type":"file_mod", #event type
-    #                 "keyword":"blueberry", #keyword in description
-    #                 "time":None, # time event happens
-    #                 "timeout":1, #timeout for waiting for next event to happen
-    #             },
-    #             {
-    #                 "type":"file_mod",
-    #                 "keyword":"raspberry",
-    #                 "time":None,
-    #                 "timeout":1,
-    #             },
-    #             ],
-    #         "actions":[ # action steps (actions to take once all set up has been seen)
-    #             {
-    #                 "cmd":"cli",
-    #                 "args":"exec -it proxy_Crosley_10.46.47.196 touch ISeeYou",
-    #                 "delay":0, #delay for next action
-    #             }
-    #         ]
-    #     },
-    #     "ScoreRestartAction":{
-    #         "setup": [
-    #             {
-    #                 "type": "score",
-    #                 "keyword": None,
-    #                 "time": None,
-    #                 "timeout": 1
-    #             }
-    #         ],
-    #         "actions": [
-    #             {
-    #                 "cmd": "cli",
-    #                 "args": "restart proxy_Crosley_10.46.47.196"
-    #             }
-    #         ]
-    #     }
-    # }
+    "entrypoint_Crosley_0":{ #container name
+        "AAAction1":{ #action name (anything unique)
+            "setup":[ # setup steps (events to look for)
+                {
+                    "type":"file_mod", #event type
+                    "keyword":"blueberry", #keyword in description
+                    "time":None, # time event happens
+                    "timeout":1, #timeout for waiting for next event to happen
+                },
+                {
+                    "type":"file_mod",
+                    "keyword":"raspberry",
+                    "time":None,
+                    "timeout":1,
+                },
+                ],
+            "actions":[ # action steps (actions to take once all set up has been seen)
+                {
+                    "cmd":"cli",
+                    "args":"exec -it entrypoint_Crosley_0 touch ISeeYou",
+                    "delay":0, #delay for next action
+                }
+            ]
+        },
+        "ScoreRestartAction":{
+            "setup": [
+                {
+                    "type": "score",
+                    "keyword": None,
+                    "time": None,
+                    "timeout": 1
+                }
+            ],
+            "actions": [
+                {
+                    "cmd": "cli",
+                    "args": "restart entrypoint_Crosley_0"
+                }
+            ]
+        }
+    }
 }
 
 challengeset1=[

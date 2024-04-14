@@ -7,8 +7,9 @@ import requests
 These are basic tests to run against parts of the 90s net infrastructure using written defaults. Only run these tests when all other systems have been started. This also assumes a single system test
 '''
 
-test_machine_name = "proxy_Crosley_10.46.47.196"
+test_machine_name = "entrypoint_Crosley_0"
 FLASK_IP = "127.0.0.1:5000"
+WAIT_TIME = 10
 
 # gets a list of events from flask server since time argument
 def getEventsSince(unix_time_code):
@@ -38,26 +39,26 @@ def connect_docker(use_time):
 
 def monitor_dir(use_time):
     # rm any old file
-    command = 'docker exec -it {} rm bar.txt'.format(test_machine_name)
+    command = 'docker exec -it {} rm /bar.txt'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME)
     # write new file
-    command = 'docker exec -it {} sh -c "echo foo > bar.txt"'.format(test_machine_name)
+    command = 'docker exec -it {} sh -c "echo foo > /bar.txt"'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME)
     new_events, time_last_event = getEventsSince(use_time)
     return 'bar' in new_events[-1]['description']
 
 
 def monitor_file(use_time):
     # rm any old file
-    command = 'docker exec -it {} sh -c "echo NONE > hello_world.txt"'.format(test_machine_name)
+    command = 'docker exec -it {} sh -c "echo NONE > /hello_world.txt"'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME)
     # write new file
-    command = 'docker exec -it {} sh -c "echo bar > hello_world.txt"'.format(test_machine_name)
+    command = 'docker exec -it {} sh -c "echo bar > /hello_world.txt"'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME)
     new_events, time_last_event = getEventsSince(use_time)
     return 'bar' in new_events[-1]['description']
 
@@ -83,13 +84,13 @@ def manager_reply(use_time):
 
 def adversary_action(use_time):
     # rm any old file
-    command = 'docker exec -it {} sh -c "echo blueberry > hello_world.txt"'.format(test_machine_name)
+    command = 'docker exec -it {} sh -c "echo blueberry > /hello_world.txt"'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME*2)
     # write new file
-    command = 'docker exec -it {} sh -c "echo raspberry > hello_world.txt"'.format(test_machine_name)
+    command = 'docker exec -it {} sh -c "echo raspberry > /hello_world.txt"'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
-    time.sleep(5)
+    time.sleep(WAIT_TIME*2)
     # check to see if new file exists
     command = 'docker exec -it {} ls'.format(test_machine_name)
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
@@ -105,9 +106,9 @@ functions_to_test = [
     adversary_action,
 ]
 
-for func in functions_to_test:
-    result = func(time.time())
+for i in range(len(functions_to_test)):
+    result = functions_to_test[i](time.time())
     if result == True:
-        print("{}\t\t[PASS]".format(func.__name__))
+        print("IS{:d}: {:16s}\t\t[PASS]".format(i, functions_to_test[i].__name__))
     else:
-        print("{}\t\t[FAIL]".format(func.__name__))
+        print("IS{:d}: {:16s}\t\t[FAIL]".format(i, functions_to_test[i].__name__))
