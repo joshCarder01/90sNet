@@ -1,11 +1,11 @@
-def test_command_blank(test_client, redis_clear):
+def test_AS1_command_blank(test_client, redis_clear):
     response = test_client.get("/command")
 
     assert response.status_code == 200
     assert response.data == b'null\n'
 
 
-def test_command_transaction(test_client, redis_clear):
+def test_AS2_command_transaction(test_client, redis_clear):
 
     test_commands = [
         {

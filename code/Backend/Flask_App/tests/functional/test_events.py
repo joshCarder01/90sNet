@@ -12,7 +12,7 @@ from Backend.Models import Event
 LOGGER = logging.getLogger(__name__)
 
 
-def test_events_get_all(test_client, test_data):
+def test_AS3_events_get_all(test_client, test_data):
     """
     Test that when the `/events` page is accessed, it will get all of the users
     in the database.
@@ -26,7 +26,7 @@ def test_events_get_all(test_client, test_data):
         json_id = find_id_in_json(data, event_check.id)
         assert_all_values(data[json_id], event_check)
 
-def test_events_get_since(test_client, test_data):
+def test_AS4_events_get_since(test_client, test_data):
     """
     Test the correct events are returned for each different time.
     """
@@ -56,7 +56,7 @@ def test_events_get_since(test_client, test_data):
 
             assert_all_values(data[json_id], event_check)
 
-def test_events_post(test_client: Flask, event):
+def test_AS5_events_post(test_client: Flask, event):
     new_event = event.serialize()
     print(new_event)
     resp = test_client.post("/events/add", json=new_event)

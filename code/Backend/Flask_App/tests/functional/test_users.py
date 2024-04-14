@@ -6,7 +6,7 @@ from Backend.Models import User
 
 from .common import *
 
-def test_users_get_all(test_client, test_data):
+def test_AS8_users_get_all(test_client, test_data):
     """
     Test that when the `/users` page is accessed, it will get all of the users
     in the database.
@@ -22,7 +22,7 @@ def test_users_get_all(test_client, test_data):
         
         assert_all_values(data[json_id], user_check)
 
-def test_users_post(test_client, user):
+def test_AS9_users_post(test_client, user):
 
     new_user = user.serialize()
     resp = test_client.post('/users/add', json=new_user)

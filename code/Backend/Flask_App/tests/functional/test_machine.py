@@ -5,7 +5,7 @@ from .common import *
 from Backend.Blueprints import machines_blueprint
 from Backend.Models import Machine
 
-def test_machines_get_all(test_client, test_data):
+def test_AS6_machines_get_all(test_client, test_data):
     """
     Test that when the `/machines` page is accessed, it will get all of the users
     in the database.
@@ -23,7 +23,7 @@ def test_machines_get_all(test_client, test_data):
         assert_all_values(machine_check, data[json_id])
 
 
-def test_machines_post(test_client, machine):
+def test_AS7_machines_post(test_client, machine):
     new_machine = machine.serialize()
 
     response = test_client.post("/machines/add", json=new_machine)
